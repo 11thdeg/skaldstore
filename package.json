@@ -1,0 +1,24 @@
+{
+  "name": "@11thdeg/skaldstore",
+  "version": "0.0.1",
+  "description": "Firestore helper classes for pelilauta, skald, and charna",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/11thdeg/skaldstore.git"
+  },
+  "keywords": [
+    "firestore",
+    "typescript",
+    "hydrate"
+  ],
+  "author": "Ville Takanen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/11thdeg/skaldstore/issues"
+  },
+  "homepage": "https://github.com/11thdeg/skaldstore#readme"
+}
