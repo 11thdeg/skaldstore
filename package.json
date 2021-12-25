@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/11thdeg/skaldstore/issues"
   },
-  "homepage": "https://github.com/11thdeg/skaldstore#readme"
+  "homepage": "https://github.com/11thdeg/skaldstore#readme",
+  "devDependencies": {
+    "typescript": "^4.5.4"
+  }
 }
