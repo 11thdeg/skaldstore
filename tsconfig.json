@@ -4,6 +4,7 @@
     "target": "es2021",
     "module": "es2020",
     "declaration": true,
+    "moduleResolution": "node",
     "lib": [
       "es2021"
     ],
