@@ -59,9 +59,9 @@ export class Entry {
     const data = {} as DocumentData
     data.id = this._id
     data.createdAt = this._createdAt || serverTimestamp()
-    data.updatedAt = serverTimestamp()
-    data.flowTime = serverTimestamp()
-    data.owners = this._owners
+    data.updatedAt = serverTimestamp() // Will be automatically updated by the server
+    data.flowTime = serverTimestamp() // Will be automatically updated by the server
+    if (this.owners.length > 0) data.owners = this._owners // Perhaps we should throw an error if this is empty?
     return data
   }
 
