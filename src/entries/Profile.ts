@@ -1,5 +1,5 @@
 import type { DocumentData } from 'firebase/firestore'
-import { Entry } from './Entry'
+import { Entry } from '../Entry'
 
 /**
  * A Public Profile of a user.

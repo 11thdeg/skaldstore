@@ -1,2 +1,7 @@
 import { Entry } from './Entry'
-export { Entry }
+import { Profile } from './entries/Profile'
+
+export {
+  Entry,
+  Profile
+}
