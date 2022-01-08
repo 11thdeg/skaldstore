@@ -1,5 +1,5 @@
 import { DocumentData, Timestamp } from 'firebase/firestore'
-import { Profile } from '../Profile'
+import { Profile } from '../entries/Profile'
 
 describe(
   'Profile', () => {
