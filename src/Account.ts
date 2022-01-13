@@ -1,4 +1,4 @@
-import { serverTimestamp } from 'firebase/firestore'
+import { serverTimestamp, Timestamp } from 'firebase/firestore'
 import type { DocumentData } from 'firebase/firestore'
 import type { User } from 'firebase/auth'
 
@@ -10,14 +10,19 @@ export class Account {
   uid: string
   isAnonymous: boolean
   providerId: string
+  lightMode: string = ''
+  updatedAt: Timestamp | null = null
 
-  constructor(user: User | null) {
+  constructor(user: User | DocumentData | null) {
     this.email = user?.email || ''
     this.displayName = user?.displayName || ''
     this.photoURL = user?.photoURL || ''
     this.uid = user?.uid || ''
     user && !user.isAnonymous ? this.isAnonymous = false : this.isAnonymous = true
     this.providerId = user?.providerId || ''
+    if (user && Object.keys(user).includes('lightMode')) {
+      this.lightMode = (user as DocumentData).lightMode
+    }
   }
 
   /**
@@ -32,9 +37,16 @@ export class Account {
     const data = {} as DocumentData
     data.uid = this.uid
     data.updatedAt = serverTimestamp()
+    data.lightMode = this.lightMode
     return data
   }
 
-  // set docData(data: DocumentData) _intentionally missing, as the account data can not be set from the database_
-
+  /**
+   * Set the fields settable from the DB here.
+   */
+  set docData(data: DocumentData) {
+    // uid is never set
+    this.updatedAt = data.updatedAt
+    this.lightMode = data.lightMode
+  }
 }
