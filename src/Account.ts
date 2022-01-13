@@ -12,6 +12,7 @@ export class Account {
   providerId: string
   lightMode: string = ''
   updatedAt: Timestamp | null = null
+  locale: string = 'en'
 
   constructor(user: User | DocumentData | null) {
     this.email = user?.email || ''
@@ -38,6 +39,7 @@ export class Account {
     data.uid = this.uid
     data.updatedAt = serverTimestamp()
     data.lightMode = this.lightMode
+    data.locale = this.locale
     return data
   }
 
@@ -46,7 +48,8 @@ export class Account {
    */
   set docData(data: DocumentData) {
     // uid is never set
-    this.updatedAt = data.updatedAt
-    this.lightMode = data.lightMode
+    this.updatedAt = data.updatedAt || null
+    this.lightMode = data.lightMode || ''
+    this.locale = data.locale || 'en'
   }
 }
