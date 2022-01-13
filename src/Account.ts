@@ -1,6 +1,6 @@
-import { serverTimestamp, Timestamp } from 'firebase/firestore'
-import type { DocumentData } from 'firebase/firestore'
-import type { User } from 'firebase/auth'
+import { serverTimestamp, Timestamp } from '@firebase/firestore'
+import type { DocumentData } from '@firebase/firestore'
+import type { User } from '@firebase/auth'
 
 export class Account {
 
