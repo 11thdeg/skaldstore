@@ -1,4 +1,4 @@
-import type { DocumentData } from 'firebase/firestore'
+import type { DocumentData } from '@firebase/firestore'
 import { Entry } from '../Entry'
 
 /**
@@ -25,7 +25,7 @@ export class Profile extends Entry {
   get docData(): DocumentData {
     const data = super.docData
     data.nickname = this._nickname
-    data.avatarURL = this._avatarURL
+    data.avatarURL = this.avatarURL
     return data
   }
   set docData(data: DocumentData) {

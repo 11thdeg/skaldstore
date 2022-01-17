@@ -1,4 +1,4 @@
-import { DocumentData, Timestamp, serverTimestamp } from 'firebase/firestore'
+import { DocumentData, Timestamp, serverTimestamp } from '@firebase/firestore'
 
 /**
  * A base class providing timestaps, ownership and helper methods for _Entries_ to the skald store.
