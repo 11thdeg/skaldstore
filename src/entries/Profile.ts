@@ -19,6 +19,10 @@ export class Profile extends Entry {
   get nickname(): string {
     return this._nickname || ''
   }
+  set nickname (nickname: string) {
+    if (!nickname || nickname.length < 4) throw new Error('A nickname must be at least 4 characters long')
+    this._nickname = nickname
+  }
   get avatarURL(): string {
     return this._avatarURL || ''
   }
