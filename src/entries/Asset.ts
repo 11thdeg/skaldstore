@@ -6,30 +6,17 @@ import { Entry } from '../Entry'
  */
 export class Asset extends Entry {
   url: string | undefined
-  description: string
-  license: number
+  description = ''
+  license = 0
   site: string | undefined
-  name: string
-  mimetype: string
+  name = ''
+  mimetype?: string
   storagePath: string | undefined
 
-  constructor(asset: string | DocumentData) {
+  constructor(asset: DocumentData) {
     super(asset)
-    if (typeof asset === 'string') {
-      this.url = asset
-      this.description = ''
-      this.license = 0
-      this.site = undefined
-      this.name = asset
-      this.mimetype = ''
-    } else {
-      this.url = asset.url || undefined
-      this.description = asset.description || ''
-      this.license = asset.license || 0
-      this.site = asset.site || undefined
-      this.name = asset.name || ''
-      this.mimetype = asset.mimetype || ''
-      this.storagePath = asset.storagePath || undefined
+    if (asset) {
+      this.docData = asset
     }
   }
   

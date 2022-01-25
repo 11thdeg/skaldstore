@@ -4,23 +4,14 @@ import { DocumentData, Timestamp, serverTimestamp } from '@firebase/firestore'
  * A base class providing timestaps, ownership and helper methods for _Entries_ to the skald store.
  */
 export class Entry {
-  protected _id: string
   protected _createdAt: Timestamp | undefined
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined
   protected _owners: string[] = []
 
-  constructor(entry: string | DocumentData) {
-    if (typeof entry === 'string') {
-      this._id = entry
-    } else {
-      this._id = entry.id || ''
+  constructor(entry?: DocumentData) {
+    if (entry)
       this.docData = entry
-    }
-  }
-
-  get id(): string {
-    return this._id
   }
 
   get createdAt(): Timestamp | undefined {
@@ -40,11 +31,16 @@ export class Entry {
     )
   }
 
-  get owners(): string[] {
+  get owners(): string|string[] {
+    if (this._owners.length === 1) return this._owners[0]
     return [...this._owners]
   }
 
-  set owners(owners: string[]) {
+  set owners(owners: string|string[]) {
+    if (typeof owners === 'string') {
+      this.owners = [owners]
+      return
+    }
     if (owners.length < 1) {
       throw new Error('At least an owner is required')
     }
@@ -57,7 +53,6 @@ export class Entry {
    */
   get docData(): DocumentData {
     const data = {} as DocumentData
-    data.id = this._id
     data.createdAt = this._createdAt || serverTimestamp()
     data.updatedAt = serverTimestamp() // Will be automatically updated by the server
     data.flowTime = serverTimestamp() // Will be automatically updated by the server
@@ -83,12 +78,12 @@ export class Entry {
     }
   }
 
-  owns(userId: string): boolean {
+  hasOwner(userId: string): boolean {
     return this.owners.includes(userId)
   }
 
   compareFlowTime(other: Entry): number {
-    if (other.id === this.id) return 0 // They are the same entity, return 0
+    if (other.flowTime === this.flowTime) return 0
     return this.flowTime > other.flowTime ? -1 : 1
   }
 }

@@ -7,12 +7,9 @@ import { Entry } from '../Entry'
 export class Profile extends Entry {
   protected _nickname: string | undefined
   protected _avatarURL: string | undefined
-  constructor(profile: string | DocumentData) {
+  constructor(profile?: DocumentData) {
     super(profile)
-    if (typeof profile === 'string') {
-      this._id = profile
-    } else {
-      this._id = profile.id || ''
+    if ( profile ) {
       this.docData = profile
     }
   }
