@@ -19,7 +19,7 @@ export class Asset extends Entry {
       this.docData = asset
     }
   }
-  
+
   get docData(): DocumentData {
     const data = super.docData
     if (this.url) data.url = this.url
@@ -31,7 +31,7 @@ export class Asset extends Entry {
     if (this.storagePath) data.storagePath = this.storagePath
     return data
   }
-  
+
   set docData(data: DocumentData) {
     super.docData = data
     this.url = data.url || undefined

@@ -9,14 +9,14 @@ export class Profile extends Entry {
   protected _avatarURL: string | undefined
   constructor(profile?: DocumentData) {
     super(profile)
-    if ( profile ) {
+    if (profile) {
       this.docData = profile
     }
   }
   get nickname(): string {
     return this._nickname || ''
   }
-  set nickname (nickname: string) {
+  set nickname(nickname: string) {
     if (!nickname || nickname.length < 4) throw new Error('A nickname must be at least 4 characters long')
     this._nickname = nickname
   }

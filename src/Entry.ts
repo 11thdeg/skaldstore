@@ -10,8 +10,7 @@ export class Entry {
   protected _owners: string[] = []
 
   constructor(entry?: DocumentData) {
-    if (entry)
-      this.docData = entry
+    if (entry) this.docData = entry
   }
 
   get createdAt(): Timestamp | undefined {
@@ -23,20 +22,15 @@ export class Entry {
   }
 
   get flowTime(): number {
-    return Math.floor(
-      this._flowTime?.toMillis() ||
-      this.updatedAt?.toMillis() ||
-      this._createdAt?.toMillis() ||
-      0
-    )
+    return Math.floor(this._flowTime?.toMillis() || this.updatedAt?.toMillis() || this._createdAt?.toMillis() || 0)
   }
 
-  get owners(): string|string[] {
+  get owners(): string | string[] {
     if (this._owners.length === 1) return this._owners[0]
     return [...this._owners]
   }
 
-  set owners(owners: string|string[]) {
+  set owners(owners: string | string[]) {
     if (typeof owners === 'string') {
       this.owners = [owners]
       return
@@ -71,8 +65,7 @@ export class Entry {
     if (data.owners) {
       if (Array.isArray(data.owners)) {
         this.owners = data.owners
-      }
-      else {
+      } else {
         this.owners = [data.owners as string]
       }
     }

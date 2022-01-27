@@ -1,11 +1,11 @@
 /**
- * A Topic 
+ * A Topic
  */
-export interface topic {
+export interface Topic {
   slug: string
   name: string
   description: string
   icon: string
-  count: number,
+  count: number
   order: number
 }
