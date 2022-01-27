@@ -1,6 +1,6 @@
 {
   "name": "@11thdeg/skaldstore",
-  "version": "0.1.0-alpha.0",
+  "version": "0.1.0-alpha.1",
   "description": "Firestore helper classes for pelilauta, skald, and charna",
   "main": "dist/index.js",
   "files": [
