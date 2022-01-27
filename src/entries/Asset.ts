@@ -13,7 +13,7 @@ export class Asset extends Entry {
   mimetype?: string
   storagePath: string | undefined
 
-  constructor(asset: DocumentData) {
+  constructor(asset?: DocumentData) {
     super(asset)
     if (asset) {
       this.docData = asset
