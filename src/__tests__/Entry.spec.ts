@@ -67,6 +67,11 @@ describe('Entry', () => {
     expect(entry.owners).toEqual('a')
     expect(entry.hasOwner('a')).toBe(true)
   })
+  it('Should accept a string as owners array', () => {
+    const entry = new Entry()
+    entry.owners = 'a'
+    expect(entry.docData.owners).toEqual(['a'])
+  })
   it('Should be comparable to another Entry with a flowTime', () => {
     const entry1 = new Entry()
     const entry2 = new Entry()
