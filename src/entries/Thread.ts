@@ -31,7 +31,7 @@ export class Thread extends Entry {
   set docData(data: DocumentData) {
     super.docData = data
     this.name = data.name
-    
+
     // Regression: author field is used on Pelilauta 13 and below, replace it with owners [0]
     if (data.author && !data.owners) this.author = data.author
 

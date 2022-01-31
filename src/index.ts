@@ -4,10 +4,4 @@ import { Account } from './Account'
 import { Asset } from './entries/Asset'
 import { Thread } from './entries/Thread'
 
-export {
-  Account,
-  Asset,
-  Entry,
-  Profile,
-  Thread
-}
+export { Account, Asset, Entry, Profile, Thread }

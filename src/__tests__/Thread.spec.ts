@@ -36,16 +36,16 @@ describe('Thread', () => {
     expect(thread.siteid).toBe('site_10')
     expect(thread.owners).toEqual('author_4')
   }),
-  it('Should support setting a key for linking to a thread', () => {
-    const thread = new Thread({}, 'thread_key')
-    expect(thread.key).toBe('thread_key')
-  }),
-  it('Should gracefully return only a legacy-author, even if there are many', () => {
-    const thread = new Thread({
-      owners: ['author_88242', 'author_12', 'author_13']
+    it('Should support setting a key for linking to a thread', () => {
+      const thread = new Thread({}, 'thread_key')
+      expect(thread.key).toBe('thread_key')
+    }),
+    it('Should gracefully return only a legacy-author, even if there are many', () => {
+      const thread = new Thread({
+        owners: ['author_88242', 'author_12', 'author_13']
+      })
+      expect(thread.owners).toEqual(['author_88242', 'author_12', 'author_13'])
+      expect(thread.author).toBe('author_88242')
+      expect(thread.docData.author).toBe('author_88242')
     })
-    expect(thread.owners).toEqual(['author_88242', 'author_12', 'author_13'])
-    expect(thread.author).toBe('author_88242')
-    expect(thread.docData.author).toBe('author_88242')
-  })
 })
