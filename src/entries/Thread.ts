@@ -3,7 +3,6 @@ import { Entry } from '..'
 
 export class Thread extends Entry {
   public name: string = ''
-  private _author: string = ''
   public htmlContent: string = ''
   public markdownContent: string = ''
   public siteid: string | undefined = undefined // the site id of the thread, if the thread is linked to a site
@@ -13,8 +12,8 @@ export class Thread extends Entry {
   private _followerCount: number = 0
   private _hidden: boolean = false
 
-  constructor(thread?: DocumentData) {
-    super(thread)
+  constructor(thread?: DocumentData, key?: string) {
+    super(thread, key)
   }
 
   get docData(): DocumentData {
@@ -32,7 +31,10 @@ export class Thread extends Entry {
   set docData(data: DocumentData) {
     super.docData = data
     this.name = data.name
-    this.author = data.author // Regression: author field is used on Pelilauta 13 and below, replace it with owners [0]
+    
+    // Regression: author field is used on Pelilauta 13 and below, replace it with owners [0]
+    if (data.author && !data.owners) this.author = data.author
+
     this.htmlContent = data.content || ''
     this.markdownContent = data.markdownContent || ''
     this._followerCount = data.seenCount || 0
@@ -60,11 +62,11 @@ export class Thread extends Entry {
   }
 
   get author(): string {
-    if (typeof this.owners === 'string') return this.owners
-    return this.owners[0]
+    if (typeof super.owners === 'string') return super.owners
+    return super.owners[0]
   }
 
   set author(author: string) {
-    this.owners = [author]
+    super.owners = author
   }
 }

@@ -8,9 +8,11 @@ export class Entry {
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined
   protected _owners: string[] = []
+  public key: string | undefined
 
-  constructor(entry?: DocumentData) {
+  constructor(entry?: DocumentData, key?: string) {
     if (entry) this.docData = entry
+    if (key) this.key = key
   }
 
   get createdAt(): Timestamp | undefined {
@@ -25,14 +27,14 @@ export class Entry {
     return Math.floor(this._flowTime?.toMillis() || this.updatedAt?.toMillis() || this._createdAt?.toMillis() || 0)
   }
 
-  get owners(): string | string[] {
+  public get owners(): string | string[] {
     if (this._owners.length === 1) return this._owners[0]
-    return [...this._owners]
+    return [...this._owners] // Return a copy
   }
 
-  set owners(owners: string | string[]) {
+  public set owners(owners: string | string[]) {
     if (typeof owners === 'string') {
-      this.owners = [owners]
+      this._owners = [owners]
       return
     }
     if (owners.length < 1) {
