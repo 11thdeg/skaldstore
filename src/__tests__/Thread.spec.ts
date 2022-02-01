@@ -15,7 +15,7 @@ describe('Thread', () => {
   it('Should support legacy docdata', () => {
     const thread = new Thread()
     thread.docData = {
-      name: 'name_2',
+      title: 'name_2',
       content: 'content_3',
       author: 'author_4',
       replyCount: 5,
@@ -25,7 +25,7 @@ describe('Thread', () => {
       topic: 'yleinen_9',
       site: 'site_10'
     }
-    expect(thread.name).toBe('name_2')
+    expect(thread.title).toBe('name_2')
     expect(thread.htmlContent).toBe('content_3')
     expect(thread.author).toBe('author_4')
     expect(thread.replyCount).toBe(5)
