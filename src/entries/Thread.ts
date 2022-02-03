@@ -13,7 +13,7 @@ export class Thread extends Entry {
   public topicid: string | undefined = undefined // the topic id of the thread, if the thread is linked to a topic
   public youtubeId: string | undefined = undefined
   public syndicateURL: string | undefined = undefined
-  public assets: string[] | undefined
+  public assets: Map<string, string> = new Map()
   private _replyCount: number = 0
   private _lovedCount: number = 0
   private _followerCount: number = 0
@@ -33,6 +33,16 @@ export class Thread extends Entry {
     if (this.siteid) data.site = this.siteid
     if (this.topicid) data.topic = this.topicid
     data.hidden = this._hidden
+
+    // Convert Assets Map to an array
+    if (this.assets.size > 0) {
+      const assets = []
+      for (const [key, value] of this.assets) {
+        assets.push([key, value])
+      }
+      data.assets = assets
+    }
+
     return data
   }
 
@@ -51,6 +61,7 @@ export class Thread extends Entry {
     this._hidden = data.hidden || false
     if (data.site) this.siteid = data.site
     if (data.topic) this.topicid = data.topic
+    if (data.assets) this.assets = new Map(data.assets)
   }
 
   get replyCount(): number {

@@ -47,5 +47,27 @@ describe('Thread', () => {
       expect(thread.owners).toEqual(['author_88242', 'author_12', 'author_13'])
       expect(thread.author).toBe('author_88242')
       expect(thread.docData.author).toBe('author_88242')
+    }),
+    it('Converts Assets to Array', () => {
+      const thread = new Thread()
+      thread.docData = {
+        assets: [
+          ['asset_1', 'url_1'],
+          ['asset_2', 'url_2']
+        ]
+      }
+      expect(thread.assets.size).toBe(2)
+      expect(thread.assets.get('asset_1')).toBe('url_1')
     })
+  it('Converts Assets Map to an Array when dehydrating', () => {
+    const thread = new Thread()
+    thread.assets = new Map([
+      ['asset_1', 'url_1'],
+      ['asset_2', 'url_2']
+    ])
+    expect(thread.docData.assets).toEqual([
+      ['asset_1', 'url_1'],
+      ['asset_2', 'url_2']
+    ])
+  })
 })
