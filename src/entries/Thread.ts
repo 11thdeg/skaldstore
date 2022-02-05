@@ -32,7 +32,7 @@ export class Thread extends Entry {
     if (this.markdownContent) data.markdownContent = this.markdownContent
     if (this.siteid) data.site = this.siteid
     if (this.topicid) data.topic = this.topicid
-    data.pubic = this.public
+    data.public = this.public
 
     // Convert Assets Map to an array
     if (this.assets.size > 0) {

@@ -15,6 +15,7 @@ describe('Thread', () => {
   it('Should default to public visilibilty', () => {
     const thread = new Thread()
     expect(thread.public).toBe(true)
+    expect(thread.docData.public).toBe(true)
   })
   it('Should support legacy docdata', () => {
     const thread = new Thread()
