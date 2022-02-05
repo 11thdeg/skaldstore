@@ -12,6 +12,10 @@ describe('Thread', () => {
     thread.owners = ['author_11']
     expect(thread.docData.author).toBe('author_11')
   })
+  it('Should default to public visilibilty', () => {
+    const thread = new Thread()
+    expect(thread.public).toBe(true)
+  })
   it('Should support legacy docdata', () => {
     const thread = new Thread()
     thread.docData = {
@@ -21,7 +25,7 @@ describe('Thread', () => {
       replyCount: 5,
       lovedCount: 6,
       seenCount: 7,
-      hidden: true,
+      public: false,
       topic: 'yleinen_9',
       site: 'site_10'
     }
@@ -31,7 +35,7 @@ describe('Thread', () => {
     expect(thread.replyCount).toBe(5)
     expect(thread.lovedCount).toBe(6)
     expect(thread.followerCount).toBe(7)
-    expect(thread.hidden).toBe(true)
+    expect(thread.public).toBe(false)
     expect(thread.topicid).toBe('yleinen_9')
     expect(thread.siteid).toBe('site_10')
     expect(thread.owners).toEqual('author_4')

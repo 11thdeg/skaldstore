@@ -17,7 +17,7 @@ export class Thread extends Entry {
   private _replyCount: number = 0
   private _lovedCount: number = 0
   private _followerCount: number = 0
-  private _hidden: boolean = false
+  public public: boolean = true // we need to set visibility to be able to query ir from firebase: thus by default we set it to true
 
   constructor(thread?: DocumentData, key?: string) {
     super(thread, key)
@@ -32,7 +32,7 @@ export class Thread extends Entry {
     if (this.markdownContent) data.markdownContent = this.markdownContent
     if (this.siteid) data.site = this.siteid
     if (this.topicid) data.topic = this.topicid
-    data.hidden = this._hidden
+    data.pubic = this.public
 
     // Convert Assets Map to an array
     if (this.assets.size > 0) {
@@ -58,7 +58,8 @@ export class Thread extends Entry {
     this._followerCount = data.seenCount || 0
     this._lovedCount = data.lovedCount || 0
     this._replyCount = data.replyCount || 0
-    this._hidden = data.hidden || false
+    if (data.public === false) this.public = false // in case of empty, etc, we set it to true
+    else this.public = true
     if (data.site) this.siteid = data.site
     if (data.topic) this.topicid = data.topic
     if (data.assets) this.assets = new Map(data.assets)
@@ -74,10 +75,6 @@ export class Thread extends Entry {
 
   get followerCount(): number {
     return this._followerCount
-  }
-
-  get hidden(): boolean {
-    return this._hidden
   }
 
   get author(): string {
