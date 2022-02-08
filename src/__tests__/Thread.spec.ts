@@ -56,23 +56,20 @@ describe('Thread', () => {
     it('Converts Assets to Array', () => {
       const thread = new Thread()
       thread.docData = {
-        assets: [
-          ['asset_1', 'url_1'],
-          ['asset_2', 'url_2']
-        ]
+        images: ['url_1', 'url_2']
       }
-      expect(thread.assets.size).toBe(2)
-      expect(thread.assets.get('asset_1')).toBe('url_1')
+      expect(thread.images?.length).toBe(2)
+      const i = thread.images ? thread.images[0] : 'error!'
+      expect(i).toBe('url_1')
     })
   it('Converts Assets Map to an Array when dehydrating', () => {
     const thread = new Thread()
-    thread.assets = new Map([
-      ['asset_1', 'url_1'],
-      ['asset_2', 'url_2']
-    ])
-    expect(thread.docData.assets).toEqual([
-      ['asset_1', 'url_1'],
-      ['asset_2', 'url_2']
-    ])
+    thread.images = ['url_1', 'url_2']
+    expect(thread.docData.images).toEqual(['url_1', 'url_2'])
+  })
+  it('Should default to first asset as poster', () => {
+    const t = new Thread()
+    t.images = ['url_1', 'url_2']
+    expect(t.docData.poster).toEqual('url_1')
   })
 })

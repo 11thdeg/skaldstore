@@ -1,7 +1,7 @@
 import { DocumentData } from '@firebase/firestore'
 import { Entry } from '..'
 
-export const THEAD_SYNDICATE = 1
+export const THREAD_SYNDICATE = 1
 export const THREAD_YOUTUBE = 2
 export const THREAD_ASSETS = 3
 
@@ -13,7 +13,8 @@ export class Thread extends Entry {
   public topicid: string | undefined = undefined // the topic id of the thread, if the thread is linked to a topic
   public youtubeId: string | undefined = undefined
   public syndicateURL: string | undefined = undefined
-  public assets: Map<string, string> = new Map()
+  public images: string[] | undefined = undefined
+  private _poster: string| undefined = undefined
   private _replyCount: number = 0
   private _lovedCount: number = 0
   private _followerCount: number = 0
@@ -32,16 +33,10 @@ export class Thread extends Entry {
     if (this.markdownContent) data.markdownContent = this.markdownContent
     if (this.siteid) data.site = this.siteid
     if (this.topicid) data.topic = this.topicid
+    if (this.youtubeId) data.youtubeId = this.youtubeId
+    if (this.poster) data.poster = this.poster
+    if (this.images) data.images = this.images
     data.public = this.public
-
-    // Convert Assets Map to an array
-    if (this.assets.size > 0) {
-      const assets = []
-      for (const [key, value] of this.assets) {
-        assets.push([key, value])
-      }
-      data.assets = assets
-    }
 
     return data
   }
@@ -62,7 +57,9 @@ export class Thread extends Entry {
     else this.public = true
     if (data.site) this.siteid = data.site
     if (data.topic) this.topicid = data.topic
-    if (data.assets) this.assets = new Map(data.assets)
+    if (data.images && Array.isArray(data.images)) this.images = data.images
+    if (data.youtubeId) this.youtubeId = data.youtubeId
+    if (data.poster) this.poster = data.poster
   }
 
   get replyCount(): number {
@@ -86,10 +83,18 @@ export class Thread extends Entry {
     super.owners = author
   }
 
+  get poster(): string | undefined {
+    if (!this._poster && this.images && this.images.length > 0) return this.images[0]
+    return this._poster
+  }
+  set poster(poster: string | undefined) {
+    this._poster = poster
+  }
+
   get threadType(): number {
-    if (this.syndicateURL) return THEAD_SYNDICATE
+    if (this.syndicateURL) return THREAD_SYNDICATE
     if (this.youtubeId) return THREAD_YOUTUBE
-    if (this.assets) return THREAD_ASSETS
+    if (this.images) return THREAD_ASSETS
     return 0
   }
 }
