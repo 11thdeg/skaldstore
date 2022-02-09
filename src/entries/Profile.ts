@@ -5,7 +5,7 @@ import { Entry } from '../Entry'
  * A Public Profile of a user.
  */
 export class Profile extends Entry {
-  public nickname = ''
+  public nick = ''
   public avatarURL: string | undefined
   public bio = ''
   constructor(profile?: DocumentData) {
@@ -16,15 +16,15 @@ export class Profile extends Entry {
   }
   get docData(): DocumentData {
     const data = super.docData
-    data.nickname = this.nickname
+    data.nick = this.nick
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.bio) data.bio = this.bio
     return data
   }
   set docData(data: DocumentData) {
     super.docData = data
-    this.nickname = data.nickname || ''
-    this.avatarURL = data.avatarURL || undefined
+    this.nick = data.nick || ''
+    this.avatarURL = data.avatarURL || data.photoURL || undefined // TODO: remove photoURL when it's deprecated
     this.bio = data.bio || ''
   }
 }

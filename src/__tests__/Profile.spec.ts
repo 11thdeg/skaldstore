@@ -6,24 +6,24 @@ describe('Profile', () => {
     const ts = Timestamp.now()
     const doc = {
       avatarURL: 'https://avatar.com',
-      nickname: 'nickname',
+      nick: 'nickname',
       createdAt: ts
     } as DocumentData
     const profile = new Profile(doc)
     expect(profile.avatarURL).toBe('https://avatar.com')
-    expect(profile.nickname).toBe('nickname')
+    expect(profile.nick).toBe('nickname')
     expect(profile.createdAt).toBe(ts)
   })
   it('Should support setting and getting docData', () => {
     const profile = new Profile()
     profile.docData = {
       avatarURL: 'https://avatar.com',
-      nickname: 'nickname!',
+      nick: 'nickname!',
       bio: 'bio'
     }
     expect(profile.docData).toEqual({
       avatarURL: 'https://avatar.com',
-      nickname: 'nickname!',
+      nick: 'nickname!',
       bio: 'bio',
       createdAt: serverTimestamp(),
       flowTime: serverTimestamp(),
@@ -33,8 +33,17 @@ describe('Profile', () => {
   it('Should support setting and getting empty docdata', () => {
     const profile = new Profile()
     profile.docData = {}
-    expect(profile.nickname).toBe('')
+    expect(profile.nick).toBe('')
     expect(profile.avatarURL).toBeUndefined()
     expect(profile.bio).toBe('')
+  })
+  it('Should support legacy photoURL', () => {
+    const profile = new Profile()
+    profile.docData = {
+      photoURL: 'https://avatar.com'
+    }
+    expect(profile.avatarURL).toBe('https://avatar.com')
+    expect(profile.docData.avatarURL).toBe('https://avatar.com')
+    expect(profile.docData.photoURL).toBeUndefined()
   })
 })

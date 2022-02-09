@@ -14,7 +14,7 @@ export class Thread extends Entry {
   public youtubeId: string | undefined = undefined
   public syndicateURL: string | undefined = undefined
   public images: string[] | undefined = undefined
-  private _poster: string| undefined = undefined
+  private _poster: string | undefined = undefined
   private _replyCount: number = 0
   private _lovedCount: number = 0
   private _followerCount: number = 0
@@ -53,7 +53,8 @@ export class Thread extends Entry {
     this._followerCount = data.seenCount || 0
     this._lovedCount = data.lovedCount || 0
     this._replyCount = data.replyCount || 0
-    if (data.public === false) this.public = false // in case of empty, etc, we set it to true
+    if (data.public === false) this.public = false
+    // in case of empty, etc, we set it to true
     else this.public = true
     if (data.site) this.siteid = data.site
     if (data.topic) this.topicid = data.topic
