@@ -57,4 +57,9 @@ describe('Profile', () => {
     profile.owners = ['owner_99', 'another owner, which should not do anything except fill up the db with extraneous data']
     expect(profile.uid).toBe('owner_99')
   })
+  it('Should dehydrate settable fields', () => {
+    const profile = new Profile()
+    profile.bio = 'a test of bio'
+    expect(profile.docData.bio).toBe('a test of bio')
+  })
 })
