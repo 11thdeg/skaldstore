@@ -61,8 +61,11 @@ export class Entry {
    */
   set docData(data: DocumentData) {
     if (data.createdAt) this._createdAt = data.createdAt as Timestamp
+    else if (data.created) this._createdAt = data.created as Timestamp // Legacy support
     if (data.updatedAt) this._updatedAt = data.updatedAt as Timestamp
+    else if (data.updated) this._updatedAt = data.updated as Timestamp // Legacy support
     if (data.flowTime) this._flowTime = data.flowTime as Timestamp
+    else if (data.flowtime) this._flowTime = data.flow as Timestamp // Legacy support
 
     if (data.owners) {
       if (Array.isArray(data.owners)) {
