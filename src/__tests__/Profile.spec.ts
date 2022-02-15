@@ -46,7 +46,7 @@ describe('Profile', () => {
     expect(profile.docData.avatarURL).toBe('https://avatar.com')
     expect(profile.docData.photoURL).toBeUndefined()
   })
-  it('Should support uid as a legacy owner field', () =>{
+  it('Should support uid as a legacy owner field', () => {
     const profile = new Profile({}, 'uid_11')
     expect(profile.docData.owners).toEqual(['uid_11'])
     expect(profile.uid).toBe('uid_11')
@@ -54,7 +54,10 @@ describe('Profile', () => {
   })
   it('Should return first owner as uid if uid is missing', () => {
     const profile = new Profile()
-    profile.owners = ['owner_99', 'another owner, which should not do anything except fill up the db with extraneous data']
+    profile.owners = [
+      'owner_99',
+      'another owner, which should not do anything except fill up the db with extraneous data'
+    ]
     expect(profile.uid).toBe('owner_99')
   })
   it('Should dehydrate settable fields', () => {

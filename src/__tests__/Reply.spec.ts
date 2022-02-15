@@ -17,11 +17,11 @@ describe('Reply', () => {
     expect(reply.docData?.content).toBe('<p>fygiubbubu</p>')
     expect(reply.docData?.createdAt).toBe(ts)
   }),
-  it('Supports quoted content', () => {
-    const reply = new Reply({
-      quoteRef: 'wdwqfq3f'
+    it('Supports quoted content', () => {
+      const reply = new Reply({
+        quoteRef: 'wdwqfq3f'
+      })
+      expect(reply.isQuoting()).toBe(true)
+      expect(reply.quoteRef).toBe('wdwqfq3f')
     })
-    expect(reply.isQuoting()).toBe(true)
-    expect(reply.quoteRef).toBe('wdwqfq3f')
-  })
 })

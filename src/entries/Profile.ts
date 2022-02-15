@@ -19,7 +19,7 @@ export class Profile extends Entry {
       super.owners = uid
     }
   }
-  get uid (): string {
+  get uid(): string {
     if (!this._uid) {
       if (typeof this.owners === 'string') return this.owners
       else return this.owners[0]

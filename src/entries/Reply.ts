@@ -5,20 +5,19 @@ import { Entry } from '../Entry'
  * A Reply to a Thread
  */
 export class Reply extends Entry {
-
   public htmlContent = ''
   public markdownContent = ''
-  public quoteRef: string|undefined
-  public images: string[]|undefined
+  public quoteRef: string | undefined
+  public images: string[] | undefined
   public lovesCount = 0
-  protected _lovers:string[] = []
+  protected _lovers: string[] = []
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
     if (data) this.docData = data
   }
 
-  public get docData (): DocumentData {
+  public get docData(): DocumentData {
     const data = super.docData
     data.author = this.author
     if (this.htmlContent) data.content = this.htmlContent
@@ -28,11 +27,11 @@ export class Reply extends Entry {
     return data
   }
 
-  public set docData (data: DocumentData) {
+  public set docData(data: DocumentData) {
     super.docData = data
     if (data.author && !data.owners) this._owners = [data.author] // Legacy replies support
     if (data.created) this._createdAt = data.created // Legacy replies support
-    this.htmlContent = data.content || ''
+    this.htmlContent = data.content || ''
     this.markdownContent = data.markdownContent || ''
     this.lovesCount = data.lovesCount || 0
     this._lovers = data.lovers
@@ -40,22 +39,28 @@ export class Reply extends Entry {
     this.quoteRef = data.quoteRef // undefined is a valid value, thus no need to check if it exists
   }
 
-  public get lovers (): string[] {
+  public get lovers(): string[] {
     return [...this._lovers]
   }
 
-  public get author (): string {
+  public get author(): string {
     return typeof this._owners === 'string' ? this._owners : this._owners[0]
   }
+  public set author(a: string) {
+    this._owners = [a]
+  }
 
-  /** 
+  /**
    * A Reply can only have an owner, overriding the default behaviour of an Entry
    */
   public get owners(): string | string[] {
     return typeof this._owners === 'string' ? this._owners : this._owners[0]
   }
+  public set owners(o: string | string[]) {
+    this._owners = typeof o === 'string' ? [o] : o
+  }
 
-  public isQuoting (): boolean {
+  public isQuoting(): boolean {
     return !!this.quoteRef
   }
 }
