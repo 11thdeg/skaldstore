@@ -28,20 +28,19 @@ export class Entry {
   }
 
   public get owners(): string | string[] {
+    if (!this._owners || this._owners.length < 1) return ''
     if (this._owners.length === 1) return this._owners[0]
     return [...this._owners] // Return a copy
   }
 
   public set owners(owners: string | string[]) {
-    if (typeof owners === 'string') {
-      this._owners = [owners]
-      return
-    }
-    if (owners.length < 1) {
-      throw new Error('At least an owner is required')
-    }
-    // Remove duplicates from the array
-    this._owners = [...new Set(owners)]
+    this.setOwners(owners)
+  }
+
+  private setOwners (newOwners: string[]|string|undefined) {
+    if (!newOwners) throw new Error('At least an owner is required')
+    else if (typeof newOwners === 'string') this._owners = [newOwners]
+    else this._owners = [...(new Set(newOwners))]
   }
 
   /**
@@ -67,17 +66,11 @@ export class Entry {
     if (data.flowTime) this._flowTime = data.flowTime as Timestamp
     else if (data.flowtime) this._flowTime = data.flow as Timestamp // Legacy support
 
-    if (data.owners) {
-      if (Array.isArray(data.owners)) {
-        this.owners = data.owners
-      } else {
-        this.owners = [data.owners as string]
-      }
-    }
+    if (data.owners) this.setOwners(data.owners)
   }
 
   hasOwner(userId: string): boolean {
-    return this.owners.includes(userId)
+    return this._owners.includes(userId)
   }
 
   compareFlowTime(other: Entry): number {

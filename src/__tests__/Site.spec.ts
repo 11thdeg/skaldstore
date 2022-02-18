@@ -16,4 +16,68 @@ describe('Site', () => {
     const site = new Site()
     expect(site.docData.name).toBe('---')
   })
+  it('Supports systemBadge', () => {
+    const site = new Site({
+      systemBadge: 'fawefaefa'
+    })
+    expect(site.systemBadge).toBe('fawefaefa')
+    expect(site.docData.systemBadge).toBe('fawefaefa')
+  })
+  it('Supports system', () => {
+    const site = new Site({
+      system: 'fawefaefa'
+    })
+    expect(site.system).toBe('fawefaefa')
+    expect(site.docData.system).toBe('fawefaefa')
+  })
+  it('Supports hidden', () => {
+    const site = new Site({
+      hidden: true
+    })
+    expect(site.hidden).toBe(true)
+    expect(site.docData.hidden).toBe(true)
+  })
+  it('Supports pageCategories', () => {
+    const site = new Site({
+      pageCategories: [
+        {
+          slug: 'fawefsdfaefa',
+          name: 'fawefaefsfsdfa'
+        },
+        {
+          slug: 'fawefsdfaefa_2',
+          name: 'fawefaefsfsdfa_2'
+        }
+      ]
+    })
+    expect(site.pageCategories).toContainEqual({
+      slug: 'fawefsdfaefa',
+      name: 'fawefaefsfsdfa'
+    })
+    expect(site.pageCategories).toContainEqual({
+      slug: 'fawefsdfaefa_2',
+      name: 'fawefaefsfsdfa_2'
+    })
+    expect(site.docData.pageCategories).toContainEqual({
+      slug: 'fawefsdfaefa',
+      name: 'fawefaefsfsdfa'
+    })
+  })
+  it('Supports players', () => {
+    const site = new Site({
+      players: [
+        'player_1'
+      ],
+      owners: [
+        'owner_2',
+        'owner_3'
+      ]
+    })
+    expect(site.players).toContain('player_1')
+    expect(site.members).toContain('player_1')
+    expect(site.members).toContain('owner_2')
+    expect(site.members).toContain('owner_3')
+    expect(site.docData.players).toContain('player_1')
+    expect(site.docData.owners).toContain('owner_2')
+  })
 })

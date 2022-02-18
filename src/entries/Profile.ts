@@ -31,7 +31,7 @@ export class Profile extends Entry {
     data.nick = this.nick
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.bio) data.bio = this.bio
-    data.uid = this.uid
+    if (this.uid) data.uid = this.uid
     return data
   }
   set docData(data: DocumentData) {
