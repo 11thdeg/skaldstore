@@ -2,7 +2,7 @@ import type { DocumentData } from '@firebase/firestore'
 import { Entry } from '../Entry'
 
 export interface PageCategory {
-  slug: string,
+  slug: string
   name: string
 }
 
@@ -16,7 +16,7 @@ export class Site extends Entry {
   public system = ''
   public hidden = false
   public pageCategories: PageCategory[] = []
-  public players:string[] = []
+  public players: string[] = []
   public posterURL = ''
   public avatarURL = ''
 
@@ -49,7 +49,7 @@ export class Site extends Entry {
     this.avatarURL = data.avatarURL || ''
     this.posterURL = data.posterURL || ''
   }
-  get members (): string[] {
+  get members(): string[] {
     const owners = this._owners
     return [...owners, ...this.players]
   }

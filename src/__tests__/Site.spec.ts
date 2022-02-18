@@ -65,13 +65,8 @@ describe('Site', () => {
   })
   it('Supports players', () => {
     const site = new Site({
-      players: [
-        'player_1'
-      ],
-      owners: [
-        'owner_2',
-        'owner_3'
-      ]
+      players: ['player_1'],
+      owners: ['owner_2', 'owner_3']
     })
     expect(site.players).toContain('player_1')
     expect(site.members).toContain('player_1')

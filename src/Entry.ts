@@ -37,10 +37,10 @@ export class Entry {
     this.setOwners(owners)
   }
 
-  private setOwners (newOwners: string[]|string|undefined) {
+  private setOwners(newOwners: string[] | string | undefined) {
     if (!newOwners) throw new Error('At least an owner is required')
     else if (typeof newOwners === 'string') this._owners = [newOwners]
-    else this._owners = [...(new Set(newOwners))]
+    else this._owners = [...new Set(newOwners)]
   }
 
   /**
