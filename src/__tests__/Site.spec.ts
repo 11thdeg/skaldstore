@@ -80,4 +80,14 @@ describe('Site', () => {
     expect(site.docData.players).toContain('player_1')
     expect(site.docData.owners).toContain('owner_2')
   })
+  it('Supports avatar and poster', () => {
+    const site = new Site({
+      avatarURL: 'avatar_url',
+      posterURL: 'avatar_2'
+    })
+    expect(site.avatarURL).toBe('avatar_url')
+    expect(site.posterURL).toBe('avatar_2')
+    expect(site.docData.avatarURL).toBe('avatar_url')
+    expect(site.docData.posterURL).toBe('avatar_2')
+  })
 })

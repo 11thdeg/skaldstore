@@ -17,6 +17,8 @@ export class Site extends Entry {
   public hidden = false
   public pageCategories: PageCategory[] = []
   public players:string[] = []
+  public posterURL = ''
+  public avatarURL = ''
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -31,6 +33,8 @@ export class Site extends Entry {
     if (this.hidden) data.hidden = this.hidden
     if (this.pageCategories && this.pageCategories.length > 0) data.pageCategories = this.pageCategories
     if (this.players && this.players.length > 0) data.players = this.players
+    if (this.posterURL) data.posterURL = this.posterURL
+    if (this.avatarURL) data.avatarURL = this.avatarURL
     return data
   }
   set docData(data: DocumentData) {
@@ -42,6 +46,8 @@ export class Site extends Entry {
     this.hidden = data.hidden || false
     this.pageCategories = data.pageCategories || []
     this.players = data.players || []
+    this.avatarURL = data.avatarURL || ''
+    this.posterURL = data.posterURL || ''
   }
   get members (): string[] {
     const owners = this._owners
