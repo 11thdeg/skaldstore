@@ -19,12 +19,14 @@ describe('Profile', () => {
     profile.docData = {
       avatarURL: 'https://avatar.com',
       nick: 'nickname!',
-      bio: 'bio'
+      bio: 'bio',
+      lovedThreads: ['thread1', 'thread2']
     }
     expect(profile.docData).toEqual({
       avatarURL: 'https://avatar.com',
       nick: 'nickname!',
       bio: 'bio',
+      lovedThreads: ['thread1', 'thread2'],
       createdAt: serverTimestamp(),
       flowTime: serverTimestamp(),
       updatedAt: serverTimestamp()
@@ -36,6 +38,7 @@ describe('Profile', () => {
     expect(profile.nick).toBe('')
     expect(profile.avatarURL).toBeUndefined()
     expect(profile.bio).toBe('')
+    expect(profile.docData.lovedThreads).toBeUndefined()
   })
   it('Should support legacy photoURL', () => {
     const profile = new Profile()
@@ -64,5 +67,12 @@ describe('Profile', () => {
     const profile = new Profile()
     profile.bio = 'a test of bio'
     expect(profile.docData.bio).toBe('a test of bio')
+  })
+  it('Should support reactions', () => {
+    const profile = new Profile({
+      lovedThreads: ['thread_1', 'thread_2']
+    })
+    expect(profile.loves('thread_1')).toBe(true)
+    expect(profile.loves('thread_3')).toBe(false)
   })
 })

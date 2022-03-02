@@ -9,6 +9,8 @@ export class Profile extends Entry {
   public avatarURL: string | undefined
   public bio = ''
   private _uid = ''
+  private lovedThreads: string[] = []
+
   constructor(profile?: DocumentData, uid?: string) {
     super(profile, uid)
     if (profile) {
@@ -32,6 +34,7 @@ export class Profile extends Entry {
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.bio) data.bio = this.bio
     if (this.uid) data.uid = this.uid
+    if (this.lovedThreads.length) data.lovedThreads = this.lovedThreads
     return data
   }
   set docData(data: DocumentData) {
@@ -40,5 +43,10 @@ export class Profile extends Entry {
     this.avatarURL = data.avatarURL || data.photoURL || undefined // TODO: remove photoURL when it's deprecated
     this.bio = data.bio || ''
     this._uid = data.uid || this.owners[0] || ''
+    this.lovedThreads = data.lovedThreads || []
+  }
+
+  loves(key: string): boolean {
+    return this.lovedThreads.includes(key) // || this.lovedPages.includes(key) f.ex.: add pages later?
   }
 }
