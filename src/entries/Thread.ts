@@ -19,6 +19,7 @@ export class Thread extends Entry {
   private _lovedCount: number = 0
   private _followerCount: number = 0
   public public: boolean = true // we need to set visibility to be able to query ir from firebase: thus by default we set it to true
+  public sticky: boolean = false // if the thread is sticky
 
   constructor(thread?: DocumentData, key?: string) {
     super(thread, key)
@@ -36,6 +37,7 @@ export class Thread extends Entry {
     if (this.youtubeId) data.youtubeId = this.youtubeId
     if (this.poster) data.poster = this.poster
     if (this.images) data.images = this.images
+    data.sticky = this.sticky
     data.public = this.public
 
     return data
@@ -61,6 +63,7 @@ export class Thread extends Entry {
     if (data.images && Array.isArray(data.images)) this.images = data.images
     if (data.youtubeId) this.youtubeId = data.youtubeId
     if (data.poster) this.poster = data.poster
+    this.sticky = data.sticky || false // [undefined/null/false] -> false
   }
 
   get replyCount(): number {

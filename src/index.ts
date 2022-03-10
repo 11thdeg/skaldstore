@@ -6,5 +6,6 @@ import { Thread } from './entries/Thread'
 import { Reply } from './entries/Reply'
 import { Site } from './entries/Site'
 import { Page } from './entries/Page'
+import { Notification } from './/Notification'
 
-export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page }
+export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page, Notification }

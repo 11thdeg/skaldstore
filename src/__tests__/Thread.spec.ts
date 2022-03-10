@@ -72,4 +72,9 @@ describe('Thread', () => {
     t.images = ['url_1', 'url_2']
     expect(t.docData.poster).toEqual('url_1')
   })
+  it('Should support setting a Poster', () => {
+    const t = new Thread()
+    t.poster = 'url_1'
+    expect(t.docData.poster).toEqual('url_1')
+  })
 })
