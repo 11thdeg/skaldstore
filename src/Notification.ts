@@ -8,7 +8,8 @@ export class Notification {
   public message: string = ''
   public targetKey: string = ''
   public targetType: string = ''
-  public readonly FIRESTORE_COLLECTION_NAME = 'notifications'
+  public read: boolean = false
+  public static readonly FIRESTORE_COLLECTION_NAME = 'notifications'
 
   constructor(data?: DocumentData, key?: string) {
     if (data) this.docData = data
@@ -27,6 +28,7 @@ export class Notification {
     if (this.message) data.message = this.message
     if (this.targetKey) data.targetKey = this.targetKey
     if (this.targetType) data.targetType = this.targetType
+    data.read = this.read || false
 
     // Serverside timestamp for new entries!
     data.createdAt = this.createdAt || serverTimestamp()
@@ -40,5 +42,6 @@ export class Notification {
     if (data.targetKey) this.targetKey = data.targetKey
     if (data.targetType) this.targetType = data.targetType
     if (data.createdAt) this._createdAt = data.createdAt 
+    this.read = data.read || false
   }
 }

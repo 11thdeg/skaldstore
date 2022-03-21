@@ -1,5 +1,5 @@
 import { Site } from '../entries/Site'
-// import { DocumentData, Timestamp } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 
 describe('Site', () => {
   it('Supports base fields', () => {
@@ -84,5 +84,15 @@ describe('Site', () => {
     expect(site.posterURL).toBe('avatar_2')
     expect(site.docData.avatarURL).toBe('avatar_url')
     expect(site.docData.posterURL).toBe('avatar_2')
+  })
+  it('Supports legacy dates', () => {
+    const ts = Timestamp.fromDate(new Date())
+    const site = new Site({
+      lastUpdate: ts
+    })
+    expect(site.createdAt).toBe(ts)
+    expect(site.updatedAt).toBe(ts)
+    expect(site.flowTime).toBe(Math.floor(ts.toMillis()))
+    expect(site.docData.createdAt).toBe(ts)
   })
 })
