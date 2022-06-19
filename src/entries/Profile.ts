@@ -60,6 +60,11 @@ export class Profile extends Entry {
   watchThreadAt(key: string, flowTime: number): void {
     this._watchThreads.set(key, flowTime)
   }
+
+  unWatchThread(key: string): void {
+    this._watchThreads.delete(key)
+  }
+
   /**
    * Threads that the user is watching. Do note that this is not the same as the threads that the user has loved.
    * 
