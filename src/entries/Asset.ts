@@ -13,8 +13,8 @@ export class Asset extends Entry {
   mimetype?: string
   storagePath: string | undefined
 
-  constructor(asset?: DocumentData) {
-    super(asset)
+  constructor(asset?: DocumentData, key?:string) {
+    super(asset, key)
     if (asset) {
       this.docData = asset
     }

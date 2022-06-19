@@ -10,6 +10,7 @@ export class Profile extends Entry {
   public bio = ''
   private _uid = ''
   private lovedThreads: string[] = []
+  protected _watchThreads = new Map<string, number>()
 
   constructor(profile?: DocumentData, uid?: string) {
     super(profile, uid)
@@ -35,6 +36,7 @@ export class Profile extends Entry {
     if (this.bio) data.bio = this.bio
     if (this.uid) data.uid = this.uid
     if (this.lovedThreads.length) data.lovedThreads = this.lovedThreads
+    if (this._watchThreads.size) data.watchThreads = Object.fromEntries(this._watchThreads)
     return data
   }
   set docData(data: DocumentData) {
@@ -44,9 +46,18 @@ export class Profile extends Entry {
     this.bio = data.bio || ''
     this._uid = data.uid || this.owners[0] || ''
     this.lovedThreads = data.lovedThreads || []
+    this._watchThreads = new Map(Object.entries(data.watchThreads || {}))
   }
 
   loves(key: string): boolean {
     return this.lovedThreads.includes(key) // || this.lovedPages.includes(key) f.ex.: add pages later?
+  }
+
+  seenThreadAt(key: string): number {
+    return this._watchThreads.get(key) || 0
+  }
+
+  watchThreadAt(key: string, flowTime: number): void {
+    this._watchThreads.set(key, flowTime)
   }
 }
