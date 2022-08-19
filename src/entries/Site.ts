@@ -52,7 +52,6 @@ export class Site extends Entry {
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
     if (!this._updatedAt) this._updatedAt = data.lastUpdate
-    if (!this._flowTime) this._flowTime = data.lastUpdate
   }
   get members(): string[] {
     const owners = this._owners
