@@ -6,6 +6,12 @@ export interface PageCategory {
   name: string
 }
 
+export interface SiteLink {
+  name: string
+  url: string
+  noun?: string
+}
+
 /**
  * A Site or a Game
  */
@@ -19,6 +25,7 @@ export class Site extends Entry {
   public players: string[] = []
   public posterURL = ''
   public avatarURL = ''
+  public links: SiteLink[] = []
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -35,6 +42,7 @@ export class Site extends Entry {
     if (this.players && this.players.length > 0) data.players = this.players
     if (this.posterURL) data.posterURL = this.posterURL
     if (this.avatarURL) data.avatarURL = this.avatarURL
+    if (this.links && this.links.length > 0) data.links = this.links
     return data
   }
   set docData(data: DocumentData) {
@@ -48,6 +56,7 @@ export class Site extends Entry {
     this.players = data.players || []
     this.avatarURL = data.avatarURL || ''
     this.posterURL = data.posterURL || ''
+    this.links = data.links || []
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
