@@ -77,4 +77,8 @@ export class Entry {
     if (other.flowTime === this.flowTime) return 0
     return this.flowTime > other.flowTime ? -1 : 1
   }
+
+  public static get collectionName(): string {
+    throw new Error('An entry needs to implement a get collection() method')
+  }
 }

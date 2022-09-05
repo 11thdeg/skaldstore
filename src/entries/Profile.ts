@@ -73,4 +73,6 @@ export class Profile extends Entry {
   get watchThreads (): string[] {
     return Array.from(this._watchThreads.keys())
   }
+
+  public static get collectionName(): string { return 'profiles' }
 }

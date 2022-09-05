@@ -44,4 +44,7 @@ export class Notification {
     if (data.createdAt) this._createdAt = data.createdAt 
     this.read = data.read || false
   }
+  public static get collectionName(): string {
+    return 'notifications'
+  }
 }

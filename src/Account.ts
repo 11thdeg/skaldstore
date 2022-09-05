@@ -51,4 +51,8 @@ export class Account {
     this.lightMode = data.lightMode || ''
     this.locale = data.locale || 'en'
   }
+
+  public static get collectionName(): string {
+    return 'account'
+  }
 }
