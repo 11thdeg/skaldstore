@@ -16,5 +16,8 @@ describe('Account', () => {
     const account = new Account(user)
     expect(account.email).toBe('email')
     expect(account.docData.email).toBeUndefined()
+  }),
+  it('should return a collection name', () => {
+    expect(Account.collectionName).toBe('account')
   })
 })

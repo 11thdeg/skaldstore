@@ -90,4 +90,7 @@ describe('Entry', () => {
     expect(entry1.compareFlowTime(entry2)).toBe(1)
     expect(entry2.compareFlowTime(entry1)).toBe(-1)
   })
+  it('Should throw an error when collection name is queried', () => {
+    expect(() => Entry.collectionName).toThrow()
+  })
 })

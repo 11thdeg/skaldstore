@@ -20,5 +20,8 @@ describe('Asset', () => {
     expect(asset.name).toBe('name')
     expect(asset.mimetype).toBe('mimetype')
     expect(asset.storagePath).toBe('storagePath')
+  }),
+  it('Should provide a Collection name', () => {
+    expect(Asset.collectionName).toBe('assets')
   })
 })

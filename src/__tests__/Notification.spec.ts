@@ -41,5 +41,8 @@ describe('Notification', () => {
       'key'
     )
     expect(notification.docData?.createdAt).toBeDefined()
+  }),
+  it('should return a collection name', () => {
+    expect(Notification.collectionName).toBe('notifications')
   })
 })

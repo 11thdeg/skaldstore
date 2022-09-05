@@ -93,4 +93,7 @@ describe('Profile', () => {
     expect(profile.seenThreadAt('thread_1')).toEqual(0)
     expect(profile.watchThreads).toEqual([])
   })
+  it('Should provide a Collection name', () => {
+    expect(Profile.collectionName).toBe('profiles')
+  })
 })
