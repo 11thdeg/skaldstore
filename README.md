@@ -1,12 +1,11 @@
 # skaldstore
 firestore helper classes for pelilauta, charna and skald
 
-## TODO
+## Releases
 
-Now roughly at npm-publish of https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
+### 0.2.0
 
-0.1.0:
-4. Publish to npm
+Support for firestore entities used by Pelilauta and Charna.
 
-0.2.0:
-1. Add the shared classes for pelilauta, charna and skald
+0.2.1
+- Addded Reaction `Storable` implementation: to support pushing reactions to db from client.

@@ -7,5 +7,7 @@ import { Reply } from './entries/Reply'
 import { Site } from './entries/Site'
 import { Page } from './entries/Page'
 import { Notification } from './/Notification'
+import { Reaction } from './Reaction'
+import { Storable } from './Storable'
 
-export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page, Notification }
+export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page, Notification, Reaction, Storable }
