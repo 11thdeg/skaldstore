@@ -26,6 +26,7 @@ export class Site extends Entry {
   public posterURL = ''
   public avatarURL = ''
   public links: SiteLink[] = []
+  protected _homepage:string|undefined
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -43,6 +44,7 @@ export class Site extends Entry {
     if (this.posterURL) data.posterURL = this.posterURL
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
+    data.homepage = this.homepage
     return data
   }
   set docData(data: DocumentData) {
@@ -57,6 +59,7 @@ export class Site extends Entry {
     this.avatarURL = data.avatarURL || ''
     this.posterURL = data.posterURL || ''
     this.links = data.links || []
+    this._homepage = data.homepage || undefined
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
@@ -68,5 +71,12 @@ export class Site extends Entry {
   }
   static get collectionName () {
     return 'sites'
+  }
+  get homepage() {
+    return this._homepage || this.key || ''
+  }
+  set homepage(value: string) {
+    if (!value) this._homepage = this.key
+    this._homepage = value
   }
 }
