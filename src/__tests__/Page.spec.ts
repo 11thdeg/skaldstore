@@ -26,5 +26,8 @@ describe('Page', () => {
     expect(page.docData?.updatedAt).not.toEqual(new Timestamp(300, 400))
     expect(page.seenCount).toBe(7)
     expect(page.docData?.seenCount).toBeUndefined()
+  }),
+  it('Provides a collection name', () => {
+    expect(Page.collectionName).toBe('pages')
   })
 })

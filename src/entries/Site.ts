@@ -66,4 +66,7 @@ export class Site extends Entry {
     const owners = this._owners
     return [...owners, ...this.players]
   }
+  static get collectionName () {
+    return 'sites'
+  }
 }

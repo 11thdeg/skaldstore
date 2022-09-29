@@ -94,5 +94,8 @@ describe('Site', () => {
     expect(site.updatedAt).toBe(ts)
     expect(site.flowTime).toBe(Math.floor(ts.toMillis()))
     expect(site.docData.createdAt).toBe(ts)
+  }),
+  it('provides a collectionName', () => {
+    expect(Site.collectionName).toBe('sites')
   })
 })
