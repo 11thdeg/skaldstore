@@ -38,12 +38,13 @@ export class Site extends Entry {
     if (this.description) data.description = this.description
     if (this.systemBadge) data.systemBadge = this.systemBadge
     if (this.system) data.system = this.system
-    if (this.hidden) data.hidden = this.hidden
     if (this.pageCategories && this.pageCategories.length > 0) data.pageCategories = this.pageCategories
     if (this.players && this.players.length > 0) data.players = this.players
     if (this.posterURL) data.posterURL = this.posterURL
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
+
+    data.hidden = this.hidden || false
     data.homepage = this.homepage
     return data
   }

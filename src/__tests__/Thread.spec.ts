@@ -77,4 +77,7 @@ describe('Thread', () => {
     t.poster = 'url_1'
     expect(t.docData.poster).toEqual('url_1')
   })
+  it('should provide a collectionName', () => {
+    expect(Thread.collectionName).toBe('stream')
+  })
 })

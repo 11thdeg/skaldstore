@@ -9,5 +9,6 @@ import { Page } from './entries/Page'
 import { Notification } from './/Notification'
 import { Reaction } from './Reaction'
 import { Storable } from './Storable'
+import { Subscriber } from './Subscriber'
 
-export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page, Notification, Reaction, Storable }
+export { Account, Asset, Entry, Profile, Thread, Reply, Site, Page, Notification, Reaction, Storable, Subscriber }

@@ -71,6 +71,10 @@ export class Entry extends Storable{
     if (data.owners) this.setOwners(data.owners)
   }
 
+  addOwner(userId: string): void {
+    if (!this.hasOwner(userId)) this._owners.push(userId)
+  }
+
   hasOwner(userId: string): boolean {
     return this._owners.includes(userId)
   }
