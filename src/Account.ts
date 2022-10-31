@@ -19,6 +19,7 @@ export class Account {
   locale: string = 'en'
   watched: watchEntry[] = []
   seenSince: Timestamp | null = null
+  lastLogin: Timestamp | null = null
 
   constructor(user: User | DocumentData | null) {
     this.email = user?.email || ''
@@ -54,6 +55,7 @@ export class Account {
     data.locale = this.locale || 'en'
     if (this.watched && this.watched.length > 0) data.watched = this.watched
     if (this.seenSince) data.seenSince = this.seenSince
+    this.lastLogin ? (data.lastLogin = this.lastLogin) : (data.lastLogin = serverTimestamp())
     return data
   }
 
@@ -67,6 +69,7 @@ export class Account {
     this.locale = data.locale || 'en'
     this.watched = data.watched || []
     this.seenSince = data.seenSince || null
+    this.lastLogin = data.lastLogin || null
   }
 
   public static get collectionName(): string {
