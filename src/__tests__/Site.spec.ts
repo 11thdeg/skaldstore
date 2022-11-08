@@ -94,5 +94,18 @@ describe('Site', () => {
     expect(site.updatedAt).toBe(ts)
     expect(site.flowTime).toBe(Math.floor(ts.toMillis()))
     expect(site.docData.createdAt).toBe(ts)
+  }),
+  it('provides a collectionName', () => {
+    expect(Site.collectionName).toBe('sites')
+  })
+  it('supports homepage', () => {
+    const site = new Site({
+      homepage: 'homepage'
+    }, 'site_id_123')
+    expect(site.homepage).toBe('homepage')
+    expect(site.docData.homepage).toBe('homepage')
+    site.homepage = ''
+    expect(site.homepage).toBe(site.key)
+    expect(site.docData.homepage).toBe(site.key)
   })
 })

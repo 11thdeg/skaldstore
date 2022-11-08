@@ -13,6 +13,10 @@ export class Page extends Entry {
     if (data) this.docData = data
   }
 
+  static get collectionName(): string {
+    return 'pages'
+  }
+
   public get seenCount(): number {
     return this._seenCount
   }

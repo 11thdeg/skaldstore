@@ -101,4 +101,8 @@ export class Thread extends Entry {
     if (this.images) return THREAD_ASSETS
     return 0
   }
+
+  static get collectionName(): string {
+    return 'stream'
+  }
 }

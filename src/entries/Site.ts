@@ -26,6 +26,7 @@ export class Site extends Entry {
   public posterURL = ''
   public avatarURL = ''
   public links: SiteLink[] = []
+  protected _homepage:string|undefined
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -37,12 +38,14 @@ export class Site extends Entry {
     if (this.description) data.description = this.description
     if (this.systemBadge) data.systemBadge = this.systemBadge
     if (this.system) data.system = this.system
-    if (this.hidden) data.hidden = this.hidden
     if (this.pageCategories && this.pageCategories.length > 0) data.pageCategories = this.pageCategories
     if (this.players && this.players.length > 0) data.players = this.players
     if (this.posterURL) data.posterURL = this.posterURL
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
+
+    data.hidden = this.hidden || false
+    data.homepage = this.homepage
     return data
   }
   set docData(data: DocumentData) {
@@ -57,6 +60,7 @@ export class Site extends Entry {
     this.avatarURL = data.avatarURL || ''
     this.posterURL = data.posterURL || ''
     this.links = data.links || []
+    this._homepage = data.homepage || undefined
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
@@ -65,5 +69,15 @@ export class Site extends Entry {
   get members(): string[] {
     const owners = this._owners
     return [...owners, ...this.players]
+  }
+  static get collectionName () {
+    return 'sites'
+  }
+  get homepage() {
+    return this._homepage || this.key || ''
+  }
+  set homepage(value: string) {
+    if (!value) this._homepage = this.key
+    this._homepage = value
   }
 }

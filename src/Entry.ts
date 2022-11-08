@@ -1,9 +1,10 @@
 import { DocumentData, Timestamp, serverTimestamp } from '@firebase/firestore'
+import { Storable } from './Storable'
 
 /**
  * A base class providing timestaps, ownership and helper methods for _Entries_ to the skald store.
  */
-export class Entry {
+export class Entry extends Storable{
   protected _createdAt: Timestamp | undefined
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined
@@ -11,6 +12,7 @@ export class Entry {
   public key: string | undefined
 
   constructor(entry?: DocumentData, key?: string) {
+    super()
     if (entry) this.docData = entry
     if (key) this.key = key
   }
@@ -69,6 +71,10 @@ export class Entry {
     if (data.owners) this.setOwners(data.owners)
   }
 
+  addOwner(userId: string): void {
+    if (!this.hasOwner(userId)) this._owners.push(userId)
+  }
+
   hasOwner(userId: string): boolean {
     return this._owners.includes(userId)
   }
@@ -76,9 +82,5 @@ export class Entry {
   compareFlowTime(other: Entry): number {
     if (other.flowTime === this.flowTime) return 0
     return this.flowTime > other.flowTime ? -1 : 1
-  }
-
-  public static get collectionName(): string {
-    throw new Error('An entry needs to implement a get collection() method')
   }
 }
