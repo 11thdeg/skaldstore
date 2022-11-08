@@ -40,6 +40,8 @@ export class Thread extends Entry {
     data.sticky = this.sticky
     data.public = this.public
 
+    data.seenCount = this.followerCount // Heritage site overide
+    // data.subscriberCount is handled by automation outside this entity
     return data
   }
 
@@ -52,7 +54,7 @@ export class Thread extends Entry {
 
     this.htmlContent = data.content || ''
     this.markdownContent = data.markdownContent || ''
-    this._followerCount = data.seenCount || 0
+    this._followerCount = data.subscriberCount || data.seenCount || 0
     this._lovedCount = data.lovedCount || 0
     this._replyCount = data.replyCount || 0
     if (data.public === false) this.public = false
