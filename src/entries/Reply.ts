@@ -34,7 +34,7 @@ export class Reply extends Entry {
     this.htmlContent = data.content || ''
     this.markdownContent = data.markdownContent || ''
     this.lovesCount = data.lovesCount || 0
-    this._lovers = data.lovers
+    this._lovers = data.lovers || [] // We iterate over these in the class, so we need to have an empty array as default
     this.images = data.images // undefined is a valid value, thus no need to check if it exists
     this.quoteRef = data.quoteRef // undefined is a valid value, thus no need to check if it exists
   }

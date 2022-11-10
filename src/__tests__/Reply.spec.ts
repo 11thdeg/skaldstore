@@ -27,4 +27,10 @@ describe('Reply', () => {
   it('Provides a collection name', () => {
     expect(Reply.collectionName).toBe('comments')
   })
+  it('Supports emtpy lovers array from the db', () => {
+    const reply = new Reply({
+      lovers: undefined
+    })
+    expect(reply.lovers).toEqual([])
+  })
 })
