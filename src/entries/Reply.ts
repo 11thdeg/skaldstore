@@ -63,4 +63,8 @@ export class Reply extends Entry {
   public isQuoting(): boolean {
     return !!this.quoteRef
   }
+
+  public static get collectionName(): string {
+    return 'comments'
+  }
 }

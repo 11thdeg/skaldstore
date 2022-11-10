@@ -24,4 +24,7 @@ describe('Reply', () => {
       expect(reply.isQuoting()).toBe(true)
       expect(reply.quoteRef).toBe('wdwqfq3f')
     })
+  it('Provides a collection name', () => {
+    expect(Reply.collectionName).toBe('comments')
+  })
 })
