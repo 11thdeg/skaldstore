@@ -83,6 +83,7 @@ export class Subscriber extends Storable {
   watches (target: string) {
     if (this._watched.has(target)) {
       const ts = this._watched.get(target) as Timestamp
+      if (!ts) return 0
       return typeof ts.toMillis === 'function' ? ts.toMillis() : 1
     }
     return 0

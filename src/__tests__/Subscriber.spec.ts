@@ -88,5 +88,17 @@ describe('Subscriber', () => {
     expect(subscriber.shouldNotify('456', 100)).toBe(false)
     expect(subscriber.shouldNotify('456', 500000)).toBe(true)    
   })
-  
+  it('Should support invalid timestamps', () => {
+    const subscriber = createSubscriber()
+    subscriber.docData = {
+      uid: 'a_key',
+      allSeenAt: null,
+      watched: {
+        '456': null,
+        '20': new Timestamp(20,1)
+      }}
+      expect(subscriber.watches('456')).toBe(0)
+      expect(subscriber.shouldNotify('456', 500000)).toBe(false)
+      expect(subscriber.shouldNotify('20', 20001)).toBe(true)
+  })
 })
