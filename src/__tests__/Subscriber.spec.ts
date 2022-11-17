@@ -67,4 +67,26 @@ describe('Subscriber', () => {
     expect(data.muted).toEqual(['345'])
     expect(subscriber.hasMuted('123')).toBe(false)
   })
+  it('Should support checking if a user should be notified of a target update', () => {
+    const subscriber = createSubscriber()
+    subscriber.docData = {
+      uid: 'a_key',
+      allSeenAt: new Timestamp(50,1),
+      watched: {
+        '123': new Timestamp(100,1),
+        '456': new Timestamp(200,1),
+        '20': new Timestamp(20,1)
+      }
+    }
+    expect(subscriber.shouldNotify('20', 30)).toBe(false)
+    expect(subscriber.shouldNotify('20', 30000)).toBe(false)
+    expect(subscriber.shouldNotify('20', 50001)).toBe(true)
+
+    expect(subscriber.shouldNotify('123', 1)).toBe(false)
+    expect(subscriber.shouldNotify('123', 200000)).toBe(true)
+
+    expect(subscriber.shouldNotify('456', 100)).toBe(false)
+    expect(subscriber.shouldNotify('456', 500000)).toBe(true)    
+  })
+  
 })

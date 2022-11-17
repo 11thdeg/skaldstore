@@ -11,7 +11,7 @@ export class Subscriber extends Storable {
   public key: string
   private _watched = new Map<string, FieldValue>()
   private _muted: string[] = []
-  private _watchSince: FieldValue | undefined
+  private _allSeenAt: FieldValue | undefined
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -31,6 +31,9 @@ export class Subscriber extends Storable {
     if (Object.keys(watched).length > 0) data.watched = watched
 
     if (this._muted.length > 0) data.muted = this._muted
+
+    if (this._allSeenAt) data.allSeenAt = this._allSeenAt
+    else data.allSeenAt = serverTimestamp()
     
     return data
   }
@@ -42,6 +45,15 @@ export class Subscriber extends Storable {
     if (data.uid !== this.key) throw new Error('The key of the Subscriber does not match the data')
     if (data.watched) this._watched = new Map(Object.entries(data.watched))
     if (data.muted) this._muted = data.muted
+    if (data.allSeenAt) this._allSeenAt = data.allSeenAt as Timestamp
+  }
+
+  get allSeenAt(): number {
+    if (this._allSeenAt) {
+      const ts = this._allSeenAt as Timestamp
+      return typeof ts.toMillis === 'function' ? ts.toMillis() : 0
+    } 
+    return 0
   }
 
   addWatch (target: string) {
@@ -78,6 +90,15 @@ export class Subscriber extends Storable {
 
   hasMuted (target: string) {
     return this._muted.includes(target)
+  }
+
+  shouldNotify (target: string, flowTime: number) {
+    if (this.hasMuted(target)) return false
+    if (this.allSeenAt >= flowTime) return false
+    const item = this._watched.get(target)
+    if (!item) return false
+    const ts = item as Timestamp
+    return typeof ts.toMillis === 'function' ? ts.toMillis() < flowTime : false
   }
 
 }
