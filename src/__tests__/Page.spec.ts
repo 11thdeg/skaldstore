@@ -58,4 +58,36 @@ describe('Page', () => {
     expect(page.markdownContent).toBe('# Page title 1')
     expect(page.htmlContent).toBe('<h1>Page title</h1>')
   })
+  it('Saves a revision', () => {
+    const page = new Page({
+      name: 'Page name',
+      markdownContent: '',
+      htmlContent: '',
+      category: 'category',
+      createdAt: new Timestamp(100, 200),
+      updatedAt: new Timestamp(300, 400),
+      seenCount: 7,
+      owners: ['goo']
+    }, 'ade')
+    page.markdownContent = '# Page title 1'
+    page.htmlContent = '<h1>Page title</h1>'
+    page.saveRevision()
+    expect(page.revisionHistory.length).toBe(1)
+    expect(page.revisionHistory[0].markdownContent).toBe('# Page title 1')
+    expect(page.revisionHistory[0].createdAt).toEqual(new Timestamp(300, 400))
+    expect(page.revisionHistory[0].author).toBe('goo')
+  })
+  it('Returns an author', () => {
+    const page = new Page({
+      name: 'Page name',
+      markdownContent: '',
+      htmlContent: '',
+      category: 'category',
+      createdAt: new Timestamp(100, 200),
+      updatedAt: new Timestamp(300, 400),
+      seenCount: 7,
+      owners: ['goo', 'foo']
+    }, 'ade')
+    expect(page.author).toBe('goo')
+  })
 })
