@@ -16,6 +16,10 @@ export interface SiteLink {
  * A Site or a Game
  */
 export class Site extends Entry {
+  static get collectionName () {
+    return 'sites'
+  }
+
   public name = ''
   public description = ''
   public systemBadge = ''
@@ -26,6 +30,7 @@ export class Site extends Entry {
   public posterURL = ''
   public avatarURL = ''
   public links: SiteLink[] = []
+  public license: string = ''
   protected _homepage:string|undefined
 
   constructor(data?: DocumentData, key?: string) {
@@ -43,6 +48,7 @@ export class Site extends Entry {
     if (this.posterURL) data.posterURL = this.posterURL
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
+    if (this.license) data.license = this.license
 
     data.hidden = this.hidden || false
     data.homepage = this.homepage
@@ -61,6 +67,7 @@ export class Site extends Entry {
     this.posterURL = data.posterURL || ''
     this.links = data.links || []
     this._homepage = data.homepage || undefined
+    this.license = data.license || ''
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
@@ -69,9 +76,6 @@ export class Site extends Entry {
   get members(): string[] {
     const owners = this._owners
     return [...owners, ...this.players]
-  }
-  static get collectionName () {
-    return 'sites'
   }
   get homepage() {
     return this._homepage || this.key || ''

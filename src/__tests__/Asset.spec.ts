@@ -1,4 +1,3 @@
-import { DocumentData } from 'firebase/firestore'
 import { Asset } from '../entries/Asset'
 
 describe('Asset', () => {
@@ -15,7 +14,7 @@ describe('Asset', () => {
     }
     expect(asset.url).toBe('https://avatar.com')
     expect(asset.description).toBe('description')
-    expect(asset.license).toBe(1)
+    expect(asset.license).toBe('1')
     expect(asset.site).toBe('site')
     expect(asset.name).toBe('name')
     expect(asset.mimetype).toBe('mimetype')

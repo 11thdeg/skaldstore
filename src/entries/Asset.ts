@@ -7,7 +7,7 @@ import { Entry } from '../Entry'
 export class Asset extends Entry {
   url: string | undefined
   description = ''
-  license = 0
+  _license = ''
   site: string | undefined
   name = ''
   mimetype?: string
@@ -17,6 +17,18 @@ export class Asset extends Entry {
     super(asset, key)
     if (asset) {
       this.docData = asset
+    }
+  }
+
+  get license (): string {
+    return this._license
+  }
+  set license (license: string|number|undefined) {
+    if (typeof license === 'number') {
+      this.license = license.toString()
+    }
+    else {
+      this._license = license || ''
     }
   }
 
@@ -36,7 +48,7 @@ export class Asset extends Entry {
     super.docData = data
     this.url = data.url || undefined
     this.description = data.description || ''
-    this.license = data.license || 0
+    this.license = data.license || ''
     this.site = data.site || undefined
     this.name = data.name || ''
     this.mimetype = data.mimetype || ''

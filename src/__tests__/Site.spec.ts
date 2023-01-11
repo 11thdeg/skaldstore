@@ -107,5 +107,15 @@ describe('Site', () => {
     site.homepage = ''
     expect(site.homepage).toBe(site.key)
     expect(site.docData.homepage).toBe(site.key)
+  }),
+  it('supports setting a license', () => {
+    const site = new Site({
+      license: 'license'
+    }, 'site_id_123')
+    expect(site.license).toBe('license')
+    expect(site.docData.license).toBe('license')
+    site.license = 'a'
+    expect(site.license).toBe('a')
+    expect(site.docData.license).toBe('a')
   })
 })
