@@ -11,7 +11,8 @@ export class Subscriber extends Storable {
   public key: string
   private _watched = new Map<string, FieldValue>()
   private _muted: string[] = []
-  private _allSeenAt: FieldValue | undefined
+  public allSeenAt: number = 0
+  private _seenEntities: Record<string, number> = {}
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -32,8 +33,10 @@ export class Subscriber extends Storable {
 
     if (this._muted.length > 0) data.muted = this._muted
 
-    if (this._allSeenAt) data.allSeenAt = this._allSeenAt
-    else data.allSeenAt = serverTimestamp()
+    if (this.allSeenAt) data.allSeenAt = this.allSeenAt
+    else data.allSeenAt = 0
+
+    if (this._seenEntities) data.seenEntities = this._seenEntities
     
     return data
   }
@@ -45,15 +48,8 @@ export class Subscriber extends Storable {
     if (data.uid !== this.key) throw new Error('The key of the Subscriber does not match the data')
     if (data.watched) this._watched = new Map(Object.entries(data.watched))
     if (data.muted) this._muted = data.muted
-    if (data.allSeenAt) this._allSeenAt = data.allSeenAt as Timestamp
-  }
-
-  get allSeenAt(): number {
-    if (this._allSeenAt) {
-      const ts = this._allSeenAt as Timestamp
-      return typeof ts.toMillis === 'function' ? ts.toMillis() : 0
-    } 
-    return 0
+    if (data.allSeenAt) this.allSeenAt = data.allSeenAt as number
+    if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
   }
 
   addWatch (target: string) {
@@ -91,6 +87,18 @@ export class Subscriber extends Storable {
 
   hasMuted (target: string) {
     return this._muted.includes(target)
+  }
+
+  isNew (target: string, flowTime: number) {
+    if (this.hasMuted(target)) return false
+    if (this.allSeenAt >= flowTime) return false
+    const item = this._seenEntities[target]
+    if (!item) return true
+    return item < flowTime
+  }
+
+  markSeen (target: string, flowTime: number) {
+    this._seenEntities[target] = flowTime
   }
 
   shouldNotify (target: string, flowTime: number) {

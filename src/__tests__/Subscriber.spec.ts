@@ -71,7 +71,7 @@ describe('Subscriber', () => {
     const subscriber = createSubscriber()
     subscriber.docData = {
       uid: 'a_key',
-      allSeenAt: new Timestamp(50,1),
+      allSeenAt: 30001,
       watched: {
         '123': new Timestamp(100,1),
         '456': new Timestamp(200,1),
@@ -92,7 +92,7 @@ describe('Subscriber', () => {
     const subscriber = createSubscriber()
     subscriber.docData = {
       uid: 'a_key',
-      allSeenAt: null,
+      allSeenAt: 0,
       watched: {
         '456': null,
         '20': new Timestamp(20,1)
