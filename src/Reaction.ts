@@ -19,7 +19,6 @@ export class Reaction extends Storable {
     Reaction.TYPE_REPLY
   ]
 
-  private _key:string = ''
   public actor: string = ''
   public targetEntry: string = ''
   public targetKey: string = ''
@@ -30,11 +29,7 @@ export class Reaction extends Storable {
   constructor (data?: DocumentData, key?: string) {
     super()
     if (data) this.docData = data
-    if (key) this._key = key
-  }
-
-  get key(): string {
-    return this._key
+    if (key) this.key = key
   }
 
   get createdAt(): Timestamp | null {

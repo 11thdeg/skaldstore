@@ -31,6 +31,7 @@ export class Site extends Entry {
   public avatarURL = ''
   public links: SiteLink[] = []
   public license: string = ''
+  public lovesCount = 0
   protected _homepage:string|undefined
 
   constructor(data?: DocumentData, key?: string) {
@@ -49,6 +50,7 @@ export class Site extends Entry {
     if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
     if (this.license) data.license = this.license
+    if (this.lovesCount) data.lovesCount = this.lovesCount
 
     data.hidden = this.hidden || false
     data.homepage = this.homepage
@@ -68,6 +70,7 @@ export class Site extends Entry {
     this.links = data.links || []
     this._homepage = data.homepage || undefined
     this.license = data.license || ''
+    this.lovesCount = data.lovesCount || 0
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate

@@ -1,13 +1,14 @@
 import { serverTimestamp, Timestamp, FieldValue } from '@firebase/firestore'
 import type { DocumentData } from '@firebase/firestore'
 import type { User } from '@firebase/auth'
+import { Storable } from './Storable'
 
 export type watchEntry = {
   key: string
   lastSeen: Timestamp|FieldValue
 }
 
-export class Account {
+export class Account extends Storable{
   email: string
   displayName: string
   photoURL: string
@@ -20,12 +21,15 @@ export class Account {
   watched: watchEntry[] = []
   seenSince: Timestamp | null = null
   lastLogin: Timestamp | null = null
+  eulaAccepted: boolean = false
 
   constructor(user: User | DocumentData | null) {
+    super()
     this.email = user?.email || ''
     this.displayName = user?.displayName || ''
     this.photoURL = user?.photoURL || ''
     this.uid = user?.uid || ''
+    this.key = this.uid
     user && !user.isAnonymous ? (this.isAnonymous = false) : (this.isAnonymous = true)
     this.providerId = user?.providerId || ''
     if (user && Object.keys(user).includes('lightMode')) {
@@ -56,6 +60,10 @@ export class Account {
     if (this.watched && this.watched.length > 0) data.watched = this.watched
     if (this.seenSince) data.seenSince = this.seenSince
     this.lastLogin ? (data.lastLogin = this.lastLogin) : (data.lastLogin = serverTimestamp())
+
+    // This is a special field that is set to true, the first time the user logs in, and the Account
+    // is created. It is used to check if the user has accepted the EULA.
+    data.eulaAccepted = true
     return data
   }
 
@@ -63,13 +71,14 @@ export class Account {
    * Set the fields settable from the DB here.
    */
   set docData(data: DocumentData) {
-    // uid is never set
+    // uid is never set, nor is the key (which is the uid)
     this.updatedAt = data.updatedAt || null
     this.lightMode = data.lightMode || 'light'
     this.locale = data.locale || 'en'
     this.watched = data.watched || []
     this.seenSince = data.seenSince || null
     this.lastLogin = data.lastLogin || null
+    this.eulaAccepted = data.eulaAccepted || false // See comment in docData getter
   }
 
   public static get collectionName(): string {
