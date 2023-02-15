@@ -3,6 +3,16 @@ import { Account } from '../Account'
 import type { User } from 'firebase/auth'
 
 describe('Account', () => {
+  // Storable basics
+  it('Should support key', () => {
+    const account = new Account(null)
+    expect(account.key).toBe('')
+  })
+  it('Should support getFirestorePath', () => {
+    const account = new Account(null)
+    expect(account.getFirestorePath()).toEqual(['account'])
+  })
+
   it('Should remove personal data from docdata', () => {
     const ts = Timestamp.now()
     const user = {

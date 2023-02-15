@@ -9,7 +9,7 @@ export class Entry extends Storable {
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined
   protected _owners: string[] = []
-  public key: string | undefined
+  public key = ''
 
   constructor(entry?: DocumentData, key?: string) {
     super()
