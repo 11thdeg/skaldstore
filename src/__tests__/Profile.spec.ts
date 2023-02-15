@@ -2,6 +2,18 @@ import { DocumentData, serverTimestamp, Timestamp } from 'firebase/firestore'
 import { Profile } from '../entries/Profile'
 
 describe('Profile', () => {
+  // Storable basics
+  it('Should support key', () => {
+    const asset = new Profile()
+    expect(asset.key).toBe('')
+    expect(asset.uid).toBe('')
+  })
+  it('Should support getFirestorePath', () => {
+    const asset = new Profile()
+    expect(asset.getFirestorePath()).toEqual([Profile.collectionName])
+  })
+
+
   it('Should hydrate Avatar URL and Nickname from docData', () => {
     const ts = Timestamp.now()
     const doc = {
@@ -20,13 +32,15 @@ describe('Profile', () => {
       avatarURL: 'https://avatar.com',
       nick: 'nickname!',
       bio: 'bio',
-      lovedThreads: ['thread1', 'thread2']
+      lovedThreads: ['thread1', 'thread2'],
+      lovedSites: ['site1', 'site2']
     }
     expect(profile.docData).toEqual({
       avatarURL: 'https://avatar.com',
       nick: 'nickname!',
       bio: 'bio',
       lovedThreads: ['thread1', 'thread2'],
+      lovedSites: ['site1', 'site2'],
       createdAt: serverTimestamp(),
       flowTime: serverTimestamp(),
       updatedAt: serverTimestamp()

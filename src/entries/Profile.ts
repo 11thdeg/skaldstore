@@ -10,6 +10,7 @@ export class Profile extends Entry {
   public bio = ''
   private _uid = ''
   private lovedThreads: string[] = []
+  protected _lovedSites: string[] = []
   protected _watchThreads = new Map<string, number>()
 
   constructor(profile?: DocumentData, uid?: string) {
@@ -37,6 +38,7 @@ export class Profile extends Entry {
     if (this.uid) data.uid = this.uid
     if (this.lovedThreads.length) data.lovedThreads = this.lovedThreads
     if (this._watchThreads.size) data.watchThreads = Object.fromEntries(this._watchThreads)
+    if (this._lovedSites.length) data.lovedSites = this._lovedSites
     return data
   }
   set docData(data: DocumentData) {
@@ -47,10 +49,13 @@ export class Profile extends Entry {
     this._uid = data.uid || this.owners[0] || ''
     this.lovedThreads = data.lovedThreads || []
     this._watchThreads = new Map(Object.entries(data.watchThreads || {}))
+    this._lovedSites = data.lovedSites || []
   }
 
   loves(key: string): boolean {
-    return this.lovedThreads.includes(key) // || this.lovedPages.includes(key) f.ex.: add pages later?
+    return this.lovedThreads.includes(key)
+      || this._lovedSites.includes(key) 
+      // || this.lovedPages.includes(key) f.ex.: add pages later?
   }
 
   seenThreadAt(key: string): number {
@@ -76,5 +81,8 @@ export class Profile extends Entry {
 
   public static get collectionName(): string {
     return 'profiles'
+  }
+  public getFirestorePath(): string[] {
+    return [Profile.collectionName]
   }
 }
