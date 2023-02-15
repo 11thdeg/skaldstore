@@ -13,21 +13,20 @@ export class Asset extends Entry {
   mimetype?: string
   storagePath: string | undefined
 
-  constructor(asset?: DocumentData, key?:string) {
+  constructor(asset?: DocumentData, key?: string) {
     super(asset, key)
     if (asset) {
       this.docData = asset
     }
   }
 
-  get license (): string {
+  get license(): string {
     return this._license
   }
-  set license (license: string|number|undefined) {
+  set license(license: string | number | undefined) {
     if (typeof license === 'number') {
       this.license = license.toString()
-    }
-    else {
+    } else {
       this._license = license || ''
     }
   }
@@ -54,5 +53,7 @@ export class Asset extends Entry {
     this.mimetype = data.mimetype || ''
     this.storagePath = data.storagePath || undefined
   }
-  public static get collectionName(): string { return 'assets' }
+  public static get collectionName(): string {
+    return 'assets'
+  }
 }

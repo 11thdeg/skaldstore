@@ -42,7 +42,7 @@ describe('Notification', () => {
     )
     expect(notification.docData?.createdAt).toBeDefined()
   }),
-  it('should return a collection name', () => {
-    expect(Notification.collectionName).toBe('notifications')
-  })
+    it('should return a collection name', () => {
+      expect(Notification.collectionName).toBe('notifications')
+    })
 })

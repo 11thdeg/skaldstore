@@ -1,5 +1,5 @@
-import { DocumentData, serverTimestamp, Timestamp } from "firebase/firestore"
-import { Storable } from "./Storable"
+import { DocumentData, serverTimestamp, Timestamp } from 'firebase/firestore'
+import { Storable } from './Storable'
 
 export class Reaction extends Storable {
   public static readonly FIRESTORE_COLLECTION_NAME = 'reactions'
@@ -19,14 +19,25 @@ export class Reaction extends Storable {
     Reaction.TYPE_REPLY
   ]
 
+  // Target Entries
+  public static readonly TARGET_ENTRY_REPLY = 'reply'
+  public static readonly TARGET_ENTRY_THREAD = 'stream'
+  public static readonly TARGET_ENTRY_SITE = 'site'
+  // Target Entry validation
+  private static validTargetEntries = [
+    Reaction.TARGET_ENTRY_THREAD,
+    Reaction.TARGET_ENTRY_SITE,
+    Reaction.TARGET_ENTRY_REPLY
+  ]
+
   public actor: string = ''
-  public targetEntry: string = ''
+  private _targetEntry: string = ''
   public targetKey: string = ''
   public targetActor: string = ''
   private _type: string = ''
   private _createdAt: Timestamp | undefined = undefined
-  
-  constructor (data?: DocumentData, key?: string) {
+
+  constructor(data?: DocumentData, key?: string) {
     super()
     if (data) this.docData = data
     if (key) this.key = key
@@ -39,15 +50,25 @@ export class Reaction extends Storable {
   get type(): string {
     return this._type
   }
-  set type(type:string) {
-    if (!Reaction.validTypes.includes(type)) throw new Error('Invalid reaction type')
+  set type(type: string) {
+    if (!Reaction.validTypes.includes(type))
+      throw new Error('Invalid reaction type, valid types are: ' + Reaction.validTypes.join(','))
     this._type = type
+  }
+
+  get targetEntry(): string {
+    return this._targetEntry
+  }
+  set targetEntry(targetEntry: string) {
+    if (!Reaction.validTargetEntries.includes(targetEntry))
+      throw new Error('Invalid target entry, valid types are: ' + Reaction.validTargetEntries.join(','))
+    this._targetEntry = targetEntry
   }
 
   /**
    * Dries up the Entry to a plain object, storable to Firebase with automatic values for timestamps.
    */
-   get docData(): DocumentData {
+  get docData(): DocumentData {
     const data = {} as DocumentData
     data.actor = this.actor
     data.targetEntry = this.targetEntry
@@ -70,7 +91,21 @@ export class Reaction extends Storable {
     this.targetKey = data.targetKey || ''
   }
 
+  /**
+   * Please note, that reactions are stored in a subcollection of the target Entry
+   *
+   * @returns 'reactions'
+   */
   public static get collectionName(): string {
     return Reaction.FIRESTORE_COLLECTION_NAME
+  }
+
+  /**
+   * Reactions are stored in a subcollection of the target Entry.
+   *
+   * @returns [targetEntry, targetKey, Reaction.FIRESTORE_COLLECTION_NAME]
+   */
+  public getFirestorePath(): string[] {
+    return [this._targetEntry, this.targetKey, Reaction.FIRESTORE_COLLECTION_NAME]
   }
 }

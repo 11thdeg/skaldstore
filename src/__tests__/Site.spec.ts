@@ -95,27 +95,33 @@ describe('Site', () => {
     expect(site.flowTime).toBe(Math.floor(ts.toMillis()))
     expect(site.docData.createdAt).toBe(ts)
   }),
-  it('provides a collectionName', () => {
-    expect(Site.collectionName).toBe('sites')
-  })
+    it('provides a collectionName', () => {
+      expect(Site.collectionName).toBe('sites')
+    })
   it('supports homepage', () => {
-    const site = new Site({
-      homepage: 'homepage'
-    }, 'site_id_123')
+    const site = new Site(
+      {
+        homepage: 'homepage'
+      },
+      'site_id_123'
+    )
     expect(site.homepage).toBe('homepage')
     expect(site.docData.homepage).toBe('homepage')
     site.homepage = ''
     expect(site.homepage).toBe(site.key)
     expect(site.docData.homepage).toBe(site.key)
   }),
-  it('supports setting a license', () => {
-    const site = new Site({
-      license: 'license'
-    }, 'site_id_123')
-    expect(site.license).toBe('license')
-    expect(site.docData.license).toBe('license')
-    site.license = 'a'
-    expect(site.license).toBe('a')
-    expect(site.docData.license).toBe('a')
-  })
+    it('supports setting a license', () => {
+      const site = new Site(
+        {
+          license: 'license'
+        },
+        'site_id_123'
+      )
+      expect(site.license).toBe('license')
+      expect(site.docData.license).toBe('license')
+      site.license = 'a'
+      expect(site.license).toBe('a')
+      expect(site.docData.license).toBe('a')
+    })
 })

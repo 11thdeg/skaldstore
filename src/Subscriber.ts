@@ -1,5 +1,5 @@
-import { DocumentData, FieldValue, serverTimestamp, Timestamp } from "firebase/firestore"
-import { Storable } from "./Storable"
+import { DocumentData, FieldValue, serverTimestamp, Timestamp } from 'firebase/firestore'
+import { Storable } from './Storable'
 
 export class Subscriber extends Storable {
   public static readonly FIRESTORE_COLLECTION_NAME = 'subscriptions'
@@ -37,7 +37,7 @@ export class Subscriber extends Storable {
     else data.allSeenAt = 0
 
     if (this._seenEntities) data.seenEntities = this._seenEntities
-    
+
     return data
   }
 
@@ -52,31 +52,31 @@ export class Subscriber extends Storable {
     if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
   }
 
-  addWatch (target: string) {
+  addWatch(target: string) {
     // Remove from muted
     if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
     // Add to watched, if exists, update timestamp
     this._watched.set(target, serverTimestamp())
   }
 
-  removeWatch (target: string) {
+  removeWatch(target: string) {
     // Remove from watched
     if (this._watched.has(target)) this._watched.delete(target)
   }
 
-  addMute (target: string) {
+  addMute(target: string) {
     // Remove from watched
     if (this._watched.has(target)) this._watched.delete(target)
     // Add to muted
     if (!this._muted.includes(target)) this._muted.push(target)
   }
 
-  removeMute (target: string) {
+  removeMute(target: string) {
     // Remove from muted
     if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
   }
 
-  watches (target: string) {
+  watches(target: string) {
     if (this._watched.has(target)) {
       const ts = this._watched.get(target) as Timestamp
       if (!ts) return 0
@@ -85,11 +85,11 @@ export class Subscriber extends Storable {
     return 0
   }
 
-  hasMuted (target: string) {
+  hasMuted(target: string) {
     return this._muted.includes(target)
   }
 
-  isNew (target: string, flowTime: number) {
+  isNew(target: string, flowTime: number) {
     if (this.hasMuted(target)) return false
     if (this.allSeenAt >= flowTime) return false
     const item = this._seenEntities[target]
@@ -97,11 +97,11 @@ export class Subscriber extends Storable {
     return item < flowTime
   }
 
-  markSeen (target: string, flowTime: number) {
+  markSeen(target: string, flowTime: number) {
     this._seenEntities[target] = flowTime
   }
 
-  shouldNotify (target: string, flowTime: number) {
+  shouldNotify(target: string, flowTime: number) {
     if (this.hasMuted(target)) return false
     if (this.allSeenAt >= flowTime) return false
     const item = this._watched.get(target)
@@ -109,5 +109,4 @@ export class Subscriber extends Storable {
     const ts = item as Timestamp
     return typeof ts.toMillis === 'function' ? ts.toMillis() < flowTime : false
   }
-
 }

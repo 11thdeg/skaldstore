@@ -67,12 +67,14 @@ export class Profile extends Entry {
 
   /**
    * Threads that the user is watching. Do note that this is not the same as the threads that the user has loved.
-   * 
+   *
    * @returns {string[]} Containing the keys of the threads that the user is watching.
    */
-  get watchThreads (): string[] {
+  get watchThreads(): string[] {
     return Array.from(this._watchThreads.keys())
   }
 
-  public static get collectionName(): string { return 'profiles' }
+  public static get collectionName(): string {
+    return 'profiles'
+  }
 }

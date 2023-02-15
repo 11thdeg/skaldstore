@@ -2,7 +2,7 @@ import { DocumentData, serverTimestamp, Timestamp } from 'firebase/firestore'
 
 export class Notification {
   private _key: string = ''
-  private _createdAt: Timestamp|undefined = undefined
+  private _createdAt: Timestamp | undefined = undefined
   public from: string = ''
   public to: string = ''
   public message: string = ''
@@ -18,7 +18,7 @@ export class Notification {
   get key(): string {
     return this._key
   }
-  get createdAt(): Timestamp|undefined {
+  get createdAt(): Timestamp | undefined {
     return this._createdAt
   }
   get docData(): DocumentData {
@@ -41,7 +41,7 @@ export class Notification {
     if (data.message) this.message = data.message
     if (data.targetKey) this.targetKey = data.targetKey
     if (data.targetType) this.targetType = data.targetType
-    if (data.createdAt) this._createdAt = data.createdAt 
+    if (data.createdAt) this._createdAt = data.createdAt
     this.read = data.read || false
   }
   public static get collectionName(): string {

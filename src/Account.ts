@@ -5,10 +5,10 @@ import { Storable } from './Storable'
 
 export type watchEntry = {
   key: string
-  lastSeen: Timestamp|FieldValue
+  lastSeen: Timestamp | FieldValue
 }
 
-export class Account extends Storable{
+export class Account extends Storable {
   email: string
   displayName: string
   photoURL: string

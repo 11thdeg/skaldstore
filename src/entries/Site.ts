@@ -16,7 +16,7 @@ export interface SiteLink {
  * A Site or a Game
  */
 export class Site extends Entry {
-  static get collectionName () {
+  static get collectionName() {
     return 'sites'
   }
 
@@ -32,7 +32,7 @@ export class Site extends Entry {
   public links: SiteLink[] = []
   public license: string = ''
   public lovesCount = 0
-  protected _homepage:string|undefined
+  protected _homepage: string | undefined
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)

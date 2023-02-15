@@ -4,7 +4,7 @@ import { Storable } from './Storable'
 /**
  * A base class providing timestaps, ownership and helper methods for _Entries_ to the skald store.
  */
-export class Entry extends Storable{
+export class Entry extends Storable {
   protected _createdAt: Timestamp | undefined
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined

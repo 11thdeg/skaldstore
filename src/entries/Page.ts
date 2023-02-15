@@ -3,8 +3,8 @@ import { Entry } from '..'
 import type { Timestamp } from '@firebase/firestore-types'
 
 interface HistoryEntry {
-  createdAt: Timestamp,
-  author: string,
+  createdAt: Timestamp
+  author: string
   markdownContent: string
 }
 
@@ -37,7 +37,10 @@ export class Page extends Entry {
    * Saves a revision of the page. Should be called before updating the page content or authors.
    */
   public saveRevision() {
-    if (!this.updatedAt) throw new Error('Cannot save revision of a page without an updatedAt timestamp (as it does not have revisions yet)')
+    if (!this.updatedAt)
+      throw new Error(
+        'Cannot save revision of a page without an updatedAt timestamp (as it does not have revisions yet)'
+      )
     const revision = {
       createdAt: this.updatedAt,
       author: this.author,
@@ -51,7 +54,6 @@ export class Page extends Entry {
     if (typeof super.owners === 'string') return super.owners
     return super.owners[0]
   }
-
 
   public get docData(): DocumentData {
     const data = super.docData
