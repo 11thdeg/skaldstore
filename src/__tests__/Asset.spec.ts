@@ -1,6 +1,15 @@
 import { Asset } from '../entries/Asset'
 
 describe('Asset', () => {
+  // Storable basics
+  it('Should support key', () => {
+    const asset = new Asset()
+    expect(asset.key).toBe('')
+  })
+  it('Should support getFirestorePath', () => {
+    const asset = new Asset()
+    expect(asset.getFirestorePath()).toEqual(['assets'])
+  })
   it('Should support hydration from docData', () => {
     const asset = new Asset()
     asset.docData = {

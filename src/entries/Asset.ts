@@ -53,7 +53,12 @@ export class Asset extends Entry {
     this.mimetype = data.mimetype || ''
     this.storagePath = data.storagePath || undefined
   }
+
+
   public static get collectionName(): string {
     return 'assets'
+  }
+  public getFirestorePath(): string[] {
+    return [Asset.collectionName]
   }
 }
