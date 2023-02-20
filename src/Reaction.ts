@@ -1,4 +1,7 @@
 import { DocumentData, serverTimestamp, Timestamp } from 'firebase/firestore'
+import { Profile } from './entries/Profile'
+import { Reply } from './entries/Reply'
+import { Site } from './entries/Site'
 import { Storable } from './Storable'
 
 export class Reaction extends Storable {
@@ -20,12 +23,10 @@ export class Reaction extends Storable {
   ]
 
   // Target Entries
-  public static readonly TARGET_ENTRY_REPLY = 'reply'
-  public static readonly TARGET_ENTRY_THREAD = 'stream'
-  public static readonly TARGET_ENTRY_SITE = 'site'
+  public static readonly TARGET_ENTRY_REPLY = Reply.collectionName
+  public static readonly TARGET_ENTRY_SITE = Site.collectionName
   // Target Entry validation
   private static validTargetEntries = [
-    Reaction.TARGET_ENTRY_THREAD,
     Reaction.TARGET_ENTRY_SITE,
     Reaction.TARGET_ENTRY_REPLY
   ]
@@ -106,6 +107,10 @@ export class Reaction extends Storable {
    * @returns [targetEntry, targetKey, Reaction.FIRESTORE_COLLECTION_NAME]
    */
   public getFirestorePath(): string[] {
-    return [this._targetEntry, this.targetKey, Reaction.FIRESTORE_COLLECTION_NAME]
+    return [
+      Profile.collectionName, 
+      this.actor,
+      Reaction.collectionName
+    ]
   }
 }

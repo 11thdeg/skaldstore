@@ -1,7 +1,7 @@
-import { Thread } from ".."
+import { Profile } from ".."
 import { Reaction } from "../Reaction"
 
-describe('Reachtion', () => {
+describe('Reaction', () => {
     // Storable basics
     it('Should support key', () => {
       const r = new Reaction()
@@ -9,11 +9,12 @@ describe('Reachtion', () => {
     })
     it('Should support getFirestorePath', () => {
       const r = new Reaction()
-      r.targetEntry = Reaction.TARGET_ENTRY_THREAD
+      r.targetEntry = Reaction.TARGET_ENTRY_SITE
       r.targetKey = 'test'
+      r.actor = 'dwdwaf'
       expect(r.getFirestorePath()).toEqual([
-        Thread.collectionName,
-        'test',
+        Profile.collectionName,
+        'dwdwaf',
         Reaction.collectionName
       ])
     })
