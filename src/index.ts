@@ -10,4 +10,5 @@ export * from './/Notification'
 export * from './Reaction'
 export * from './Storable'
 export * from './Subscriber'
+export * from './FirestoreEntry'
 

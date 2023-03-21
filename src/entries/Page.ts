@@ -1,6 +1,7 @@
 import { DocumentData } from '@firebase/firestore'
 import { Entry, Site } from '..'
 import type { Timestamp } from '@firebase/firestore-types'
+import { FirestoreEntry } from '../FirestoreEntry'
 
 interface HistoryEntry {
   createdAt: Timestamp
@@ -8,7 +9,7 @@ interface HistoryEntry {
   markdownContent: string
 }
 
-export class Page extends Entry {
+export class Page extends Entry implements FirestoreEntry{
   public parentKey: string = ''
   public name: string = ''
   public markdownContent: string = ''
