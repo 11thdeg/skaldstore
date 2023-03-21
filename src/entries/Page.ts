@@ -13,6 +13,7 @@ export class Page extends Entry {
   public markdownContent: string = ''
   public htmlContent: string = ''
   public category: string = ''
+  public sortWeight: number = 0
   private _seenCount: number = 0
   private _revisionHistory: HistoryEntry[] = []
 
@@ -62,6 +63,7 @@ export class Page extends Entry {
     if (this.htmlContent) data.htmlContent = this.htmlContent
     if (this.category) data.category = this.category
     if (this._revisionHistory.length > 0) data.revisionHistory = this._revisionHistory
+    data.sortWeight = this.sortWeight || 0
     return data
   }
   public set docData(data: DocumentData) {
@@ -72,5 +74,6 @@ export class Page extends Entry {
     this.category = data.category || ''
     this._seenCount = data.seenCount || 0
     this._revisionHistory = data.revisionHistory || []
+    this.sortWeight = data.sortWeight || 0
   }
 }
