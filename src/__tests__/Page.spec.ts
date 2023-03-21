@@ -1,5 +1,6 @@
 import { Page } from '../entries/Page'
 import { DocumentData, Timestamp } from 'firebase/firestore'
+import { Site } from '../entries/Site'
 
 describe('Page', () => {
   it('Supports core fields', () => {
@@ -98,5 +99,38 @@ describe('Page', () => {
       'ade'
     )
     expect(page.author).toBe('goo')
+  })
+  it('Returns an error for firestorePath without parent key', () => {
+    const page = new Page(
+      {
+        name: 'Page name',
+        markdownContent: '',
+        htmlContent: '',
+        category: 'category',
+        createdAt: new Timestamp(100, 200),
+        updatedAt: new Timestamp(300, 400),
+        seenCount: 7,
+        owners: ['goo', 'foo']
+      },
+      'ade'
+    )
+    expect(page.getFirestorePath).toThrowError()
+  })
+  it('Returns a firestore path', () => {
+    const page = new Page(
+      {
+        name: 'Page name',
+        markdownContent: '',
+        htmlContent: '',
+        category: 'category',
+        createdAt: new Timestamp(100, 200),
+        updatedAt: new Timestamp(300, 400),
+        seenCount: 7,
+        owners: ['goo', 'foo']
+      },
+      'ade',
+      'fefaewfa'
+    )
+    expect(page.getFirestorePath().toString()).toBe([Site.collectionName, 'fefaewfa', Page.collectionName, 'ade'].toString())
   })
 })

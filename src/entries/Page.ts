@@ -1,5 +1,5 @@
 import { DocumentData } from '@firebase/firestore'
-import { Entry } from '..'
+import { Entry, Site } from '..'
 import type { Timestamp } from '@firebase/firestore-types'
 
 interface HistoryEntry {
@@ -9,6 +9,7 @@ interface HistoryEntry {
 }
 
 export class Page extends Entry {
+  public parentKey: string = ''
   public name: string = ''
   public markdownContent: string = ''
   public htmlContent: string = ''
@@ -17,8 +18,9 @@ export class Page extends Entry {
   private _seenCount: number = 0
   private _revisionHistory: HistoryEntry[] = []
 
-  constructor(data?: DocumentData, key?: string) {
+  constructor(data?: DocumentData, key?: string, parentkKey?: string) {
     super(data, key)
+    this.parentKey = parentkKey || ''
     if (data) this.docData = data
   }
 
@@ -75,5 +77,10 @@ export class Page extends Entry {
     this._seenCount = data.seenCount || 0
     this._revisionHistory = data.revisionHistory || []
     this.sortWeight = data.sortWeight || 0
+  }
+
+  public getFirestorePath(): string[] {
+    if (!this.parentKey) throw new Error('Cannot get Firestore path for a page without a parent key')
+    return [Site.collectionName, this.parentKey, Page.collectionName, this.key]
   }
 }
