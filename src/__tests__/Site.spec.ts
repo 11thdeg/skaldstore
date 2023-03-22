@@ -124,4 +124,28 @@ describe('Site', () => {
       expect(site.license).toBe('a')
       expect(site.docData.license).toBe('a')
     })
+  it('supports FirestoreEntry', () => {
+    const site = new Site(
+      {
+        name: 'fwafawfa',
+        description: 'faefaefa bdbmper odcöoabuw'
+      },
+      'site_id_123'
+    )
+    expect(site.key).toBe('site_id_123')
+    expect(site.getFirestorePath().join('/')).toBe('sites/site_id_123')
+  })
+  it('supports setting a sort order', () => {
+    const site = new Site(
+      {
+        sortOrder: Site.SORT_BY_MANUAL
+      },
+      'site_id_123'
+    )
+    expect(site.sortOrder).toBe(Site.SORT_BY_MANUAL)
+    expect(site.docData.sortOrder).toBe(Site.SORT_BY_MANUAL)
+    site.sortOrder = Site.SORT_BY_NAME
+    expect(site.sortOrder).toBe(Site.SORT_BY_NAME)
+    expect(site.docData.sortOrder).toBe(Site.SORT_BY_NAME)
+  })
 })

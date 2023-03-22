@@ -1,5 +1,6 @@
 import type { DocumentData } from '@firebase/firestore'
 import { Entry } from '../Entry'
+import { FirestoreEntry } from '../FirestoreEntry'
 
 export interface PageCategory {
   slug: string
@@ -15,9 +16,22 @@ export interface SiteLink {
 /**
  * A Site or a Game
  */
-export class Site extends Entry {
+export class Site extends Entry implements FirestoreEntry {
   static get collectionName() {
     return 'sites'
+  }
+
+  static get SORT_BY_NAME () {
+    return 'name'
+  }
+  static get SORT_BY_CREATED_AT () {
+    return 'createdAt'
+  }
+  static get SORT_BY_FLOWTIME () {
+    return 'flowTime'
+  }
+  static get SORT_BY_MANUAL () {
+    return 'manual'
   }
 
   public name = ''
@@ -33,6 +47,7 @@ export class Site extends Entry {
   public license: string = ''
   public lovesCount = 0
   protected _homepage: string | undefined
+  protected _sortOrder: string = Site.SORT_BY_NAME
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -51,6 +66,7 @@ export class Site extends Entry {
     if (this.links && this.links.length > 0) data.links = this.links
     if (this.license) data.license = this.license
     if (this.lovesCount) data.lovesCount = this.lovesCount
+    if (this.sortOrder) data.sortOrder = this.sortOrder
 
     data.hidden = this.hidden || false
     data.homepage = this.homepage
@@ -71,6 +87,7 @@ export class Site extends Entry {
     this._homepage = data.homepage || undefined
     this.license = data.license || ''
     this.lovesCount = data.lovesCount || 0
+    this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate
@@ -86,5 +103,21 @@ export class Site extends Entry {
   set homepage(value: string) {
     if (!value) this._homepage = this.key
     this._homepage = value
+  }
+
+  get sortOrder() {
+    return this._sortOrder
+  }
+  set sortOrder(order: string) {
+    if ([
+      Site.SORT_BY_NAME,
+      Site.SORT_BY_CREATED_AT,
+      Site.SORT_BY_FLOWTIME,
+      Site.SORT_BY_MANUAL
+    ].includes(order)) this._sortOrder = order
+  }
+
+  public getFirestorePath(): string[] {
+    return [Site.collectionName, this.key]
   }
 }
