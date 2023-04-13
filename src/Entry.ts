@@ -56,7 +56,7 @@ export class Entry extends Storable implements EntryType {
     data.key = this.key
     data.createdAt = this._createdAt
     data.updatedAt = this._updatedAt
-    data.flowTime = this._flowTime
+    data.flowTime = this.flowTime // we are using a getter here to ensure that the value is always set
     if (this.owners.length > 0) data.owners = this._owners
     return data
   }
