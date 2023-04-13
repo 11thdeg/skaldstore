@@ -31,7 +31,7 @@ export class Entry extends Storable implements EntryType {
   }
 
   get flowTime(): number {
-    if (!this._flowTime) return -1
+    if (!this._flowTime && !this.updatedAt && !this._createdAt) return -1
     return Math.floor(this._flowTime?.toMillis() || this.updatedAt?.toMillis() || this._createdAt?.toMillis() || 0)
   }
 
