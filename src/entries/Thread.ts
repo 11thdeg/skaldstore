@@ -1,11 +1,11 @@
 import { DocumentData } from '@firebase/firestore'
-import { Entry } from '..'
+import { Entry, EntryType } from '..'
 
 export const THREAD_SYNDICATE = 1
 export const THREAD_YOUTUBE = 2
 export const THREAD_ASSETS = 3
 
-export class Thread extends Entry {
+export class Thread extends Entry implements EntryType{
   public title: string = ''
   public htmlContent: string = ''
   public markdownContent: string = ''
@@ -106,5 +106,28 @@ export class Thread extends Entry {
 
   static get collectionName(): string {
     return 'stream'
+  }
+
+  toJSON(): Record<string, unknown> {
+    const json = super.toJSON()
+    json.title = this.title
+    json.content = this.htmlContent
+    json.markdownContent = this.markdownContent
+    json.replyCount = this.replyCount
+    json.lovedCount = this.lovedCount
+    json.followerCount = this.followerCount
+    json.siteid = this.siteid
+    json.topicid = this.topicid
+    json.youtubeId = this.youtubeId
+    json.poster = this.poster
+    json.images = this.images
+    json.public = this.public
+    json.sticky = this.sticky
+    return json
+  }
+
+  static fromJSON(json: Record<string, unknown>): Thread {
+    const thread = new Thread(json, json.key as string)
+    return thread
   }
 }

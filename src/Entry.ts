@@ -1,10 +1,15 @@
 import { DocumentData, Timestamp, serverTimestamp } from '@firebase/firestore'
 import { Storable } from './Storable'
 
+export type EntryType = {
+  key: string
+  toJSON: () => DocumentData
+}
+
 /**
  * A base class providing timestaps, ownership and helper methods for _Entries_ to the skald store.
  */
-export class Entry extends Storable {
+export class Entry extends Storable implements EntryType {
   protected _createdAt: Timestamp | undefined
   protected _updatedAt: Timestamp | undefined
   protected _flowTime: Timestamp | undefined
@@ -45,6 +50,16 @@ export class Entry extends Storable {
     else this._owners = [...new Set(newOwners)]
   }
 
+  toJSON(): DocumentData {
+    const data = {} as DocumentData
+    data.key = this.key
+    data.createdAt = this._createdAt
+    data.updatedAt = this._updatedAt
+    data.flowTime = this._flowTime
+    if (this.owners.length > 0) data.owners = this._owners
+    return data
+  }
+
   /**
    * Dries up the Entry to a plain object, storable to Firebase with automatic values for timestamps.
    */
@@ -65,7 +80,10 @@ export class Entry extends Storable {
     else if (data.created) this._createdAt = data.created as Timestamp // Legacy support
     if (data.updatedAt) this._updatedAt = data.updatedAt as Timestamp
     else if (data.updated) this._updatedAt = data.updated as Timestamp // Legacy support
-    if (data.flowTime) this._flowTime = data.flowTime as Timestamp
+    if (data.flowTime) {
+      if (typeof data.flowTime === 'number') data.flowTime = Timestamp.fromMillis(data.flowTime) // JSON.parse() converts to number
+      else this._flowTime = data.flowTime as Timestamp
+    }
     else if (data.flowtime) this._flowTime = data.flow as Timestamp // Legacy support
 
     if (data.owners) this.setOwners(data.owners)

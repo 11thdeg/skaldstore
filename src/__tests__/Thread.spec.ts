@@ -1,4 +1,4 @@
-import { DocumentData } from 'firebase/firestore'
+import { DocumentData, Timestamp } from 'firebase/firestore'
 import { Thread } from '../entries/Thread'
 
 describe('Thread', () => {
@@ -80,4 +80,34 @@ describe('Thread', () => {
   it('should provide a collectionName', () => {
     expect(Thread.collectionName).toBe('stream')
   })
+
+  it('should support serializing to JSON', () => {
+    const t = new Thread({
+      title: 'name_2',
+      content: 'content_3',
+      owners: ['author_4', 'author_5']
+    }, 'thread_key_1')
+    const json = t.toJSON()
+    expect(json.title).toBe('name_2')
+    expect(json.content).toBe('content_3')
+    expect(json.owners).toEqual(['author_4', 'author_5'])
+    expect(json.key).toBe('thread_key_1')
+  })
+
+  it('should support serializing from JSON', () => {
+    const json = {
+      title: 'name_2',
+      content: 'content_3',
+      owners: ['author_4', 'author_5'],
+      key: 'thread_key_1',
+      flowTime: 123456789000
+    }
+    const t = Thread.fromJSON(json)
+    expect(t.title).toBe('name_2')
+    expect(t.htmlContent).toBe('content_3')
+    expect(t.author).toBe('author_4')
+    expect(t.key).toBe('thread_key_1')
+    expect(t.flowTime).toBe(123456789000)
+  })
+
 })
