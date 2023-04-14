@@ -148,4 +148,36 @@ describe('Site', () => {
     expect(site.sortOrder).toBe(Site.SORT_BY_NAME)
     expect(site.docData.sortOrder).toBe(Site.SORT_BY_NAME)
   })
+
+  it('supports dehydrating to JSON', () => {
+    const site = new Site(
+      {
+        name: 'fwafawfa',
+        description: 'faefaefa bdbmper odcöoabuw'
+      },
+      'site_id_123'
+    )
+    expect(site.toJSON()).toEqual({
+      key: 'site_id_123',
+      name: 'fwafawfa',
+      description: 'faefaefa bdbmper odcöoabuw',
+      flowTime: -1,
+      sortOrder: Site.SORT_BY_NAME,
+      createdAt: undefined,
+      updatedAt: undefined
+    })
+  })
+  it('supports hydrating from JSON', () => {
+    const json = {
+      key: 'site_id_123',
+      name: 'fwafawfa',
+      description: 'faefaefa bdbmper odcöoabuw',
+      flowTime: 24513523236,
+    }
+    const site = Site.fromJSON(json)
+    expect(site.key).toBe('site_id_123')
+    expect(site.name).toBe('fwafawfa')
+    expect(site.description).toBe('faefaefa bdbmper odcöoabuw')
+    expect(site.flowTime).toBe(24513523236)
+  })
 })

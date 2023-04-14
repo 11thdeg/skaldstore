@@ -120,4 +120,29 @@ export class Site extends Entry implements FirestoreEntry {
   public getFirestorePath(): string[] {
     return [Site.collectionName, this.key]
   }
+
+  toJSON(): DocumentData {
+    const data = super.toJSON()
+    
+    if (this.name) data.name = this.name
+    if (this.description) data.description = this.description
+    if (this.systemBadge) data.systemBadge = this.systemBadge
+    if (this.system) data.system = this.system
+    if (this.pageCategories && this.pageCategories.length > 0) data.pageCategories = this.pageCategories
+    if (this.players && this.players.length > 0) data.players = this.players
+    if (this.posterURL) data.posterURL = this.posterURL
+    if (this.avatarURL) data.avatarURL = this.avatarURL
+    if (this.links && this.links.length > 0) data.links = this.links
+    if (this.license) data.license = this.license
+    if (this.lovesCount) data.lovesCount = this.lovesCount
+    if (this.sortOrder) data.sortOrder = this.sortOrder
+
+    return data
+  }
+
+  static fromJSON(data: DocumentData, key?: string): Site {
+    const entryKey = key || data.key
+    if (!entryKey) throw new Error('Site.fromJSON: Missing entry.key')
+    return new Site(data, entryKey)
+  }
 }
