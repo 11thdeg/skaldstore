@@ -85,6 +85,6 @@ export class Account extends Storable {
     return 'account'
   }
   public getFirestorePath(): string[] {
-    return [Account.collectionName]
+    return [Account.collectionName, this.key]
   }
 }

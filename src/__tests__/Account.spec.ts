@@ -9,8 +9,8 @@ describe('Account', () => {
     expect(account.key).toBe('')
   })
   it('Should support getFirestorePath', () => {
-    const account = new Account(null)
-    expect(account.getFirestorePath()).toEqual(['account'])
+    const account = new Account({uid:'abc'})
+    expect(account.getFirestorePath()).toEqual(['account', 'abc'])
   })
 
   it('Should remove personal data from docdata', () => {

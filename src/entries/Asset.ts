@@ -59,6 +59,6 @@ export class Asset extends Entry {
     return 'assets'
   }
   public getFirestorePath(): string[] {
-    return [Asset.collectionName]
+    return [Asset.collectionName, this.key]
   }
 }

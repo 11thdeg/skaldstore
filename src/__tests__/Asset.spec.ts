@@ -7,8 +7,8 @@ describe('Asset', () => {
     expect(asset.key).toBe('')
   })
   it('Should support getFirestorePath', () => {
-    const asset = new Asset()
-    expect(asset.getFirestorePath()).toEqual(['assets'])
+    const asset = new Asset({},'abc')
+    expect(asset.getFirestorePath()).toEqual(['assets', 'abc'])
   })
   it('Should support hydration from docData', () => {
     const asset = new Asset()
