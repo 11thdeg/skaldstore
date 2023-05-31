@@ -11,7 +11,8 @@ describe('Page', () => {
       category: 'category',
       createdAt: new Timestamp(100, 200),
       updatedAt: new Timestamp(300, 400),
-      seenCount: 7
+      seenCount: 7,
+      tags: ['tag1', 'tag2']
     })
     expect(page.name).toBe('Page name')
     expect(page.docData?.name).toBe('Page name')
@@ -27,6 +28,8 @@ describe('Page', () => {
     expect(page.docData?.updatedAt).not.toEqual(new Timestamp(300, 400))
     expect(page.seenCount).toBe(7)
     expect(page.docData?.seenCount).toBeUndefined()
+    expect(page.tags).toEqual(['tag1', 'tag2'])
+    expect(page.docData?.tags).toEqual(['tag1', 'tag2'])
   }),
     it('Provides a collection name', () => {
       expect(Page.collectionName).toBe('pages')
@@ -132,5 +135,10 @@ describe('Page', () => {
       'fefaewfa'
     )
     expect(page.getFirestorePath().toString()).toBe([Site.collectionName, 'fefaewfa', Page.collectionName, 'ade'].toString())
+  })
+  // Throws an error if we try to revision the page before it has been updated
+  it('Throws an error if we try to revision the page before it has been updated', () => {
+    const page = new Page()
+    expect(() => page.saveRevision()).toThrow()
   })
 })

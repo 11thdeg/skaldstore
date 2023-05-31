@@ -18,6 +18,7 @@ export class Page extends Entry implements FirestoreEntry{
   public sortWeight: number = 0
   private _seenCount: number = 0
   private _revisionHistory: HistoryEntry[] = []
+  public tags: string[] = []
 
   constructor(data?: DocumentData, key?: string, parentkKey?: string) {
     super(data, key)
@@ -66,6 +67,7 @@ export class Page extends Entry implements FirestoreEntry{
     if (this.htmlContent) data.htmlContent = this.htmlContent
     if (this.category) data.category = this.category
     if (this._revisionHistory.length > 0) data.revisionHistory = this._revisionHistory
+    if (this.tags && this.tags.length > 0) data.tags = this.tags
     data.sortWeight = this.sortWeight || 0
     return data
   }
@@ -78,6 +80,7 @@ export class Page extends Entry implements FirestoreEntry{
     this._seenCount = data.seenCount || 0
     this._revisionHistory = data.revisionHistory || []
     this.sortWeight = data.sortWeight || 0
+    this.tags = data.tags || []
   }
 
   public getFirestorePath(): string[] {
