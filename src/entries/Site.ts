@@ -48,6 +48,7 @@ export class Site extends Entry implements FirestoreEntry {
   public lovesCount = 0
   protected _homepage: string | undefined
   protected _sortOrder: string = Site.SORT_BY_NAME
+  public tags: string[] = []
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -67,6 +68,7 @@ export class Site extends Entry implements FirestoreEntry {
     if (this.license) data.license = this.license
     if (this.lovesCount) data.lovesCount = this.lovesCount
     if (this.sortOrder) data.sortOrder = this.sortOrder
+    if (this.tags && this.tags.length > 0) data.tags = this.tags
 
     data.hidden = this.hidden || false
     data.homepage = this.homepage
@@ -88,6 +90,7 @@ export class Site extends Entry implements FirestoreEntry {
     this.license = data.license || ''
     this.lovesCount = data.lovesCount || 0
     this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
+    this.tags = data.tags || []
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate

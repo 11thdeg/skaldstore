@@ -5,12 +5,15 @@ describe('Site', () => {
   it('Supports base fields', () => {
     const site = new Site({
       name: 'fwafawfa',
-      description: 'faefaefa bdbmper odcöoabuw'
+      description: 'faefaefa bdbmper odcöoabuw',
+      lovesCount: 24,
     })
     expect(site.name).toBe('fwafawfa')
     expect(site.description).toBe('faefaefa bdbmper odcöoabuw')
     expect(site.docData.name).toBe('fwafawfa')
     expect(site.docData.description).toBe('faefaefa bdbmper odcöoabuw')
+    expect(site.lovesCount).toBe(24)
+    expect(site.docData.lovesCount).toBe(24)
   })
   it('Forces --- as a name instead of empty name for orderby and where support on firebase', () => {
     const site = new Site()
@@ -153,7 +156,11 @@ describe('Site', () => {
     const site = new Site(
       {
         name: 'fwafawfa',
-        description: 'faefaefa bdbmper odcöoabuw'
+        description: 'faefaefa bdbmper odcöoabuw',
+        lovesCount: 24,
+        systemBadge: 'fawefaefa',
+        system: 'fasfa_system',
+        pageCategories: [ 'a', 'b' ]
       },
       'site_id_123'
     )
@@ -164,7 +171,11 @@ describe('Site', () => {
       flowTime: -1,
       sortOrder: Site.SORT_BY_NAME,
       createdAt: undefined,
-      updatedAt: undefined
+      updatedAt: undefined,
+      lovesCount: 24,
+      systemBadge: 'fawefaefa',
+      system: 'fasfa_system',
+      pageCategories: [ 'a', 'b' ]
     })
   })
   it('supports hydrating from JSON', () => {
@@ -179,5 +190,34 @@ describe('Site', () => {
     expect(site.name).toBe('fwafawfa')
     expect(site.description).toBe('faefaefa bdbmper odcöoabuw')
     expect(site.flowTime).toBe(24513523236)
+  })
+  // Site supports setting a set of tags, and saving them to the db
+  it('supports tags', () => {
+    const site = new Site({ key: 'site_id_123' })
+    site.tags = ['tag1', 'tag2']
+    expect(site.tags).toEqual(['tag1', 'tag2'])
+    expect(site.docData.tags).toEqual(['tag1', 'tag2'])
+  })
+  // Site supports setting a set of links, and saving them to the db
+  it('supports links', () => {
+    const site = new Site({ key: 'site_id_123' })
+    site.links = [
+      {
+        name: 'title',
+        url: 'url'
+      }
+    ]
+    expect(site.links).toEqual([
+      {
+        name: 'title',
+        url: 'url'
+      }
+    ])
+    expect(site.docData.links).toEqual([
+      {
+        name: 'title',
+        url: 'url'
+      }
+    ])
   })
 })

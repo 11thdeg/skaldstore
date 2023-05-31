@@ -3,6 +3,7 @@ import { Storable } from './Storable'
 
 export type EntryType = {
   key: string
+  tags?: string[]
   toJSON: () => DocumentData
 }
 
