@@ -11,4 +11,5 @@ export * from './Reaction'
 export * from './Storable'
 export * from './Subscriber'
 export * from './FirestoreEntry'
+export * from './TagInfo'
 
