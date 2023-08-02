@@ -109,4 +109,8 @@ export class Subscriber extends Storable {
     const ts = item as Timestamp
     return typeof ts.toMillis === 'function' ? ts.toMillis() < flowTime : false
   }
+
+  public getFirestorePath(): string[] {
+    return [Subscriber.FIRESTORE_COLLECTION_NAME, this.key]
+  }
 }
