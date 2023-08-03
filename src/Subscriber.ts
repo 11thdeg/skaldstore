@@ -9,7 +9,7 @@ export class Subscriber extends Storable {
   }
 
   public key: string
-  private _watched = new Map<string, FieldValue>()
+  private _watched = new Map<string, number>()
   private _muted: string[] = []
   public allSeenAt: number = 0
   private _seenEntities: Record<string, number> = {}
@@ -52,11 +52,11 @@ export class Subscriber extends Storable {
     if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
   }
 
-  addWatch(target: string) {
+  addWatch(target: string, atFlowTime: number) {
     // Remove from muted
     if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
     // Add to watched, if exists, update timestamp
-    this._watched.set(target, serverTimestamp())
+    this._watched.set(target, atFlowTime)
   }
 
   removeWatch(target: string) {
@@ -76,11 +76,9 @@ export class Subscriber extends Storable {
     if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
   }
 
-  watches(target: string) {
+  watches(target: string): number {
     if (this._watched.has(target)) {
-      const ts = this._watched.get(target) as Timestamp
-      if (!ts) return 0
-      return typeof ts.toMillis === 'function' ? ts.toMillis() : 1
+      return this._watched.get(target) || 0
     }
     return 0
   }
@@ -104,10 +102,9 @@ export class Subscriber extends Storable {
   shouldNotify(target: string, flowTime: number) {
     if (this.hasMuted(target)) return false
     if (this.allSeenAt >= flowTime) return false
-    const item = this._watched.get(target)
-    if (!item) return false
-    const ts = item as Timestamp
-    return typeof ts.toMillis === 'function' ? ts.toMillis() < flowTime : false
+    const lastSeenAtFlowTime = this._watched.get(target)
+    if (!lastSeenAtFlowTime) return false
+    return lastSeenAtFlowTime < flowTime
   }
 
   public getFirestorePath(): string[] {

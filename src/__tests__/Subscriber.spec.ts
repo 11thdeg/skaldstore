@@ -37,15 +37,15 @@ describe('Subscriber', () => {
   })
   it('Should support adding a watch', () => {
     const subscriber = createSubscriber()
-    subscriber.addWatch('123')
+    subscriber.addWatch('123', 100)
     const data = subscriber.docData
     expect(Object.keys(data.watched)).toEqual(['123'])
     expect(subscriber.watches('123') > 0).toBe(true)
   })
   it('Should support removing a watch', () => {
     const subscriber = createSubscriber()
-    subscriber.addWatch('123')
-    subscriber.addWatch('345')
+    subscriber.addWatch('123', 100)
+    subscriber.addWatch('345', 200)
     subscriber.removeWatch('123')
     const data = subscriber.docData
     expect(Object.keys(data.watched)).toEqual(['345'])
@@ -73,9 +73,9 @@ describe('Subscriber', () => {
       uid: 'a_key',
       allSeenAt: 30001,
       watched: {
-        '123': new Timestamp(100, 1),
-        '456': new Timestamp(200, 1),
-        '20': new Timestamp(20, 1)
+        '123': 190000,
+        '456': 400000,
+        '20': 31000
       }
     }
     expect(subscriber.shouldNotify('20', 30)).toBe(false)
@@ -94,8 +94,8 @@ describe('Subscriber', () => {
       uid: 'a_key',
       allSeenAt: 0,
       watched: {
-        '456': null,
-        '20': new Timestamp(20, 1)
+        '456': 0,
+        '20': 20000
       }
     }
     expect(subscriber.watches('456')).toBe(0)
