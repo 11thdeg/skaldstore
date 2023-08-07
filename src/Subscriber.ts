@@ -91,7 +91,7 @@ export class Subscriber extends Storable {
     if (this.hasMuted(target)) return false
     if (this.allSeenAt >= flowTime) return false
     const item = this._seenEntities[target]
-    if (!item) return true
+    if (!item) return false
     return item < flowTime
   }
 
