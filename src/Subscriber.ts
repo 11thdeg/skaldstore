@@ -13,6 +13,7 @@ export class Subscriber extends Storable {
   private _muted: string[] = []
   public allSeenAt: number = 0
   private _seenEntities: Record<string, number> = {}
+  public messagingTokens: string[] = []
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -38,6 +39,8 @@ export class Subscriber extends Storable {
 
     if (this._seenEntities) data.seenEntities = this._seenEntities
 
+    if (this.messagingTokens.length > 0) data.messagingTokens = this.messagingTokens
+
     return data
   }
 
@@ -50,6 +53,7 @@ export class Subscriber extends Storable {
     if (data.muted) this._muted = data.muted
     if (data.allSeenAt) this.allSeenAt = data.allSeenAt as number
     if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
+    if (data.messagingTokens) this.messagingTokens = data.messagingTokens as string[]
   }
 
   addWatch(target: string, atFlowTime: number) {
@@ -105,6 +109,14 @@ export class Subscriber extends Storable {
     const lastSeenAtFlowTime = this._watched.get(target)
     if (!lastSeenAtFlowTime) return false
     return lastSeenAtFlowTime < flowTime
+  }
+
+  addMessagingToken(token: string) {
+    if (!this.messagingTokens.includes(token)) this.messagingTokens.push(token)
+  }
+
+  removeMessagingToken(token: string) {
+    if (this.messagingTokens.includes(token)) this.messagingTokens.splice(this.messagingTokens.indexOf(token), 1)
   }
 
   public getFirestorePath(): string[] {
