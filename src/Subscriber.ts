@@ -13,7 +13,9 @@ export class Subscriber extends Storable {
   private _muted: string[] = []
   public allSeenAt: number = 0
   private _seenEntities: Record<string, number> = {}
+  public pushMessages: boolean = true
   public messagingTokens: string[] = []
+  public notifyOnThreads: boolean = true
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -41,6 +43,9 @@ export class Subscriber extends Storable {
 
     if (this.messagingTokens.length > 0) data.messagingTokens = this.messagingTokens
 
+    data.pushMessages = !!this.pushMessages // Convert to boolean
+    data.notifyOnThreads = !!this.notifyOnThreads // Convert to boolean
+
     return data
   }
 
@@ -54,6 +59,10 @@ export class Subscriber extends Storable {
     if (data.allSeenAt) this.allSeenAt = data.allSeenAt as number
     if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
     if (data.messagingTokens) this.messagingTokens = data.messagingTokens as string[]
+    if (data.pushMessages !== undefined) this.pushMessages = data.pushMessages
+    else this.pushMessages = true
+    if (data.notifyOnThreads !== undefined) this.notifyOnThreads = data.notifyOnThreads
+    else this.notifyOnThreads = true
   }
 
   addWatch(target: string, atFlowTime: number) {
