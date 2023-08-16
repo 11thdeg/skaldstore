@@ -16,6 +16,7 @@ export class Subscriber extends Storable {
   public pushMessages: boolean = true
   public messagingTokens: string[] = []
   public notifyOnThreads: boolean = true
+  public notifyOnLikes: boolean = true
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -43,8 +44,10 @@ export class Subscriber extends Storable {
 
     if (this.messagingTokens.length > 0) data.messagingTokens = this.messagingTokens
 
-    data.pushMessages = !!this.pushMessages // Convert to boolean
-    data.notifyOnThreads = !!this.notifyOnThreads // Convert to boolean
+    // Boolean values, default to true if not set
+    data.pushMessages = !!this.pushMessages
+    data.notifyOnThreads = !!this.notifyOnThreads 
+    data.notifyOnLikes = !!this.notifyOnLikes 
 
     return data
   }
@@ -63,6 +66,10 @@ export class Subscriber extends Storable {
     else this.pushMessages = true
     if (data.notifyOnThreads !== undefined) this.notifyOnThreads = data.notifyOnThreads
     else this.notifyOnThreads = true
+
+    // Likes
+    if (data.notifyOnLikes !== undefined) this.notifyOnLikes = data.notifyOnLikes
+    else this.notifyOnLikes = true
   }
 
   addWatch(target: string, atFlowTime: number) {
