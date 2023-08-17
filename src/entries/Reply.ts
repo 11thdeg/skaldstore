@@ -10,11 +10,13 @@ export class Reply extends Entry {
   public quoteRef: string | undefined
   public images: string[] | undefined
   public lovesCount = 0
+  public threadKey = ''
   protected _lovers: string[] = []
 
-  constructor(data?: DocumentData, key?: string) {
+  constructor(data?: DocumentData, key?: string, threadKey?: string) {
     super(data, key)
     if (data) this.docData = data
+    if (threadKey) this.threadKey = threadKey
   }
 
   public get docData(): DocumentData {
@@ -62,6 +64,17 @@ export class Reply extends Entry {
 
   public isQuoting(): boolean {
     return !!this.quoteRef
+  }
+
+  public getFirestorePath(): string[] {
+    const path = [
+      'stream',
+      this.threadKey,
+      Reply.collectionName
+    ]
+    if (this.key) path.push(this.key)
+
+    return path
   }
 
   public static get collectionName(): string {

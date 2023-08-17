@@ -1,5 +1,5 @@
 import { Reply } from '../entries/Reply'
-import { DocumentData, Timestamp } from 'firebase/firestore'
+import { Timestamp } from 'firebase/firestore'
 
 describe('Reply', () => {
   it('Hydrates legacy data', () => {
