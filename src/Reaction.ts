@@ -36,16 +36,11 @@ export class Reaction extends Storable {
   public targetKey: string = ''
   public targetActor: string = ''
   private _type: string = ''
-  private _createdAt: Timestamp | undefined = undefined
 
   constructor(data?: DocumentData, key?: string) {
     super()
     if (data) this.docData = data
     if (key) this.key = key
-  }
-
-  get createdAt(): Timestamp | null {
-    return this._createdAt || null
   }
 
   get type(): string {
@@ -75,7 +70,6 @@ export class Reaction extends Storable {
     data.targetEntry = this.targetEntry
     data.targetActor = this.targetActor
     data.type = this.type
-    data.createdAt = this.createdAt || serverTimestamp()
     data.targetKey = this.targetKey
     return data
   }
@@ -88,7 +82,6 @@ export class Reaction extends Storable {
     this.targetEntry = data.targetEntry || ''
     this.targetActor = data.targetActor || ''
     this.type = data.type || ''
-    this._createdAt = data.createdAt || undefined
     this.targetKey = data.targetKey || ''
   }
 
