@@ -107,10 +107,15 @@ export class Reaction extends Storable {
    * @returns [targetEntry, targetKey, Reaction.FIRESTORE_COLLECTION_NAME]
    */
   public getFirestorePath(): string[] {
-    return [
-      Profile.collectionName, 
+
+    const path = [
+      Profile.collectionName,
       this.actor,
       Reaction.collectionName
     ]
+
+    if (this.key) path.push(this.key)
+
+    return path
   }
 }
