@@ -1,6 +1,12 @@
 import { DocumentData, FieldValue, serverTimestamp, Timestamp } from 'firebase/firestore'
 import { Storable } from './Storable'
 
+/**
+ * Class handling the data of a subscribed notifications and push messages.
+ * 
+ * The key is the user's firebase UID, as in Profile.key 
+ * and Account.key respectively.
+ */
 export class Subscriber extends Storable {
   public static readonly FIRESTORE_COLLECTION_NAME = 'subscriptions'
 
@@ -9,14 +15,16 @@ export class Subscriber extends Storable {
   }
 
   public key: string
-  private _watched = new Map<string, number>()
-  private _muted: string[] = []
   public allSeenAt: number = 0
-  private _seenEntities: Record<string, number> = {}
+  public seenEntities: Record<string, number> = {}
   public pushMessages: boolean = true
-  public messagingTokens: string[] = []
   public notifyOnThreads: boolean = true
   public notifyOnLikes: boolean = true
+
+  // Messaging tokens need to be unique, thus they are not available
+  // as public properties, but only through the add/remove methods
+  // ( And as docData/JSON export)
+  protected messagingTokens: string[] = []
 
   constructor(key: string, data?: DocumentData) {
     super()
@@ -32,16 +40,10 @@ export class Subscriber extends Storable {
     const data = {} as DocumentData
     data.uid = this.key
 
-    const watched = Object.fromEntries(this._watched)
-    if (Object.keys(watched).length > 0) data.watched = watched
-
-    if (this._muted.length > 0) data.muted = this._muted
-
     if (this.allSeenAt) data.allSeenAt = this.allSeenAt
     else data.allSeenAt = 0
 
-    if (this._seenEntities) data.seenEntities = this._seenEntities
-
+    if (this.seenEntities) data.seenEntities = this.seenEntities
     if (this.messagingTokens.length > 0) data.messagingTokens = this.messagingTokens
 
     // Boolean values, default to true if not set
@@ -57,10 +59,8 @@ export class Subscriber extends Storable {
    */
   set docData(data: DocumentData) {
     if (data.uid !== this.key) throw new Error('The key of the Subscriber does not match the data')
-    if (data.watched) this._watched = new Map(Object.entries(data.watched))
-    if (data.muted) this._muted = data.muted
     if (data.allSeenAt) this.allSeenAt = data.allSeenAt as number
-    if (data.seenEntities) this._seenEntities = data.seenEntities as Record<string, number>
+    if (data.seenEntities) this.seenEntities = data.seenEntities as Record<string, number>
     if (data.messagingTokens) this.messagingTokens = data.messagingTokens as string[]
     if (data.pushMessages !== undefined) this.pushMessages = data.pushMessages
     else this.pushMessages = true
@@ -70,61 +70,6 @@ export class Subscriber extends Storable {
     // Likes
     if (data.notifyOnLikes !== undefined) this.notifyOnLikes = data.notifyOnLikes
     else this.notifyOnLikes = true
-  }
-
-  addWatch(target: string, atFlowTime: number) {
-    // Remove from muted
-    if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
-    // Add to watched, if exists, update timestamp
-    this._watched.set(target, atFlowTime)
-  }
-
-  removeWatch(target: string) {
-    // Remove from watched
-    if (this._watched.has(target)) this._watched.delete(target)
-  }
-
-  addMute(target: string) {
-    // Remove from watched
-    if (this._watched.has(target)) this._watched.delete(target)
-    // Add to muted
-    if (!this._muted.includes(target)) this._muted.push(target)
-  }
-
-  removeMute(target: string) {
-    // Remove from muted
-    if (this._muted.includes(target)) this._muted.splice(this._muted.indexOf(target), 1)
-  }
-
-  watches(target: string): number {
-    if (this._watched.has(target)) {
-      return this._watched.get(target) || 0
-    }
-    return 0
-  }
-
-  hasMuted(target: string) {
-    return this._muted.includes(target)
-  }
-
-  isNew(target: string, flowTime: number) {
-    if (this.hasMuted(target)) return false
-    if (this.allSeenAt >= flowTime) return false
-    const item = this._seenEntities[target]
-    if (!item) return false
-    return item < flowTime
-  }
-
-  markSeen(target: string, flowTime: number) {
-    this._seenEntities[target] = flowTime
-  }
-
-  shouldNotify(target: string, flowTime: number) {
-    if (this.hasMuted(target)) return false
-    if (this.allSeenAt >= flowTime) return false
-    const lastSeenAtFlowTime = this._watched.get(target)
-    if (!lastSeenAtFlowTime) return false
-    return lastSeenAtFlowTime < flowTime
   }
 
   addMessagingToken(token: string) {
