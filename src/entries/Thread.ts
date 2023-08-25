@@ -135,4 +135,8 @@ export class Thread extends Entry implements EntryType{
     const thread = new Thread(json, json.key as string)
     return thread
   }
+
+  public getFirestorePath(): string[] {
+    return ['stream', this.key]
+  }
 }

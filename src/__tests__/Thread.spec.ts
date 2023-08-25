@@ -110,4 +110,8 @@ describe('Thread', () => {
     expect(t.flowTime).toBe(123456789000)
   })
 
+  it('should support getting a firestore path', () => {
+    const t = new Thread({}, 'thread_key_1')
+    expect(t.getFirestorePath()).toEqual(['stream', 'thread_key_1'])
+  })
 })
