@@ -49,6 +49,7 @@ export class Site extends Entry implements FirestoreEntry {
   protected _homepage: string | undefined
   protected _sortOrder: string = Site.SORT_BY_NAME
   public tags: string[] = []
+  public customPageKeys = false
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -69,6 +70,8 @@ export class Site extends Entry implements FirestoreEntry {
     if (this.lovesCount) data.lovesCount = this.lovesCount
     if (this.sortOrder) data.sortOrder = this.sortOrder
     if (this.tags && this.tags.length > 0) data.tags = this.tags
+    
+    data.customPageKeys = this.customPageKeys || false
 
     data.hidden = this.hidden || false
     data.homepage = this.homepage
@@ -76,6 +79,10 @@ export class Site extends Entry implements FirestoreEntry {
   }
   set docData(data: DocumentData) {
     super.docData = data
+
+    // This should be moved to super
+    if (!this.key && data.key) this.key = data.key
+
     this.name = data.name || ''
     this.description = data.description || ''
     this.systemBadge = data.systemBadge || ''
@@ -91,6 +98,8 @@ export class Site extends Entry implements FirestoreEntry {
     this.lovesCount = data.lovesCount || 0
     this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
     this.tags = data.tags || []
+
+    this.customPageKeys = data.customPageKeys || false
 
     // Legacy data interop
     if (!this._createdAt) this._createdAt = data.lastUpdate

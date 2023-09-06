@@ -219,5 +219,20 @@ describe('Site', () => {
         url: 'url'
       }
     ])
+  }),
+  it('Has a collection name', () => {
+    expect(Site.collectionName).toEqual('sites')
+  })
+  it('Has a firestore path', () => {
+    const site = new Site({ key: 'site_id_123' })
+    expect(site.getFirestorePath()).toEqual(['sites', 'site_id_123'])
+  })
+  it('Has a setting for vanity page-ids', () => {
+    const site = new Site({ key: 'site_id_123' })
+    expect(site.customPageKeys).toEqual(false)
+    site.customPageKeys = true
+    expect(site.customPageKeys).toEqual(true)
+    expect(site.docData.customPageKeys).toEqual(true)
+
   })
 })
