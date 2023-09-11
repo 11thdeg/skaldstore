@@ -50,6 +50,7 @@ export class Site extends Entry implements FirestoreEntry {
   protected _sortOrder: string = Site.SORT_BY_NAME
   public tags: string[] = []
   public customPageKeys = false
+  public backgroundURL = ''
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -70,6 +71,7 @@ export class Site extends Entry implements FirestoreEntry {
     if (this.lovesCount) data.lovesCount = this.lovesCount
     if (this.sortOrder) data.sortOrder = this.sortOrder
     if (this.tags && this.tags.length > 0) data.tags = this.tags
+    if (this.backgroundURL) data.backgroundURL = this.backgroundURL
     
     data.customPageKeys = this.customPageKeys || false
 
@@ -98,6 +100,7 @@ export class Site extends Entry implements FirestoreEntry {
     this.lovesCount = data.lovesCount || 0
     this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
     this.tags = data.tags || []
+    this.backgroundURL = data.backgroundURL || ''
 
     this.customPageKeys = data.customPageKeys || false
 
@@ -142,12 +145,16 @@ export class Site extends Entry implements FirestoreEntry {
     if (this.system) data.system = this.system
     if (this.pageCategories && this.pageCategories.length > 0) data.pageCategories = this.pageCategories
     if (this.players && this.players.length > 0) data.players = this.players
-    if (this.posterURL) data.posterURL = this.posterURL
-    if (this.avatarURL) data.avatarURL = this.avatarURL
     if (this.links && this.links.length > 0) data.links = this.links
     if (this.license) data.license = this.license
     if (this.lovesCount) data.lovesCount = this.lovesCount
     if (this.sortOrder) data.sortOrder = this.sortOrder
+    if (this.tags && this.tags.length > 0) data.tags = this.tags
+
+    // Theming support
+    if (this.backgroundURL) data.backgroundURL = this.backgroundURL
+    if (this.posterURL) data.posterURL = this.posterURL
+    if (this.avatarURL) data.avatarURL = this.avatarURL
 
     return data
   }
