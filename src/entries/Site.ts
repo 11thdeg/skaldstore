@@ -46,11 +46,11 @@ export class Site extends Entry implements FirestoreEntry {
   public links: SiteLink[] = []
   public license: string = ''
   public lovesCount = 0
-  protected _homepage: string | undefined
   protected _sortOrder: string = Site.SORT_BY_NAME
   public tags: string[] = []
   public customPageKeys = false
   public backgroundURL = ''
+  public homepage = ''
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -95,7 +95,7 @@ export class Site extends Entry implements FirestoreEntry {
     this.avatarURL = data.avatarURL || ''
     this.posterURL = data.posterURL || ''
     this.links = data.links || []
-    this._homepage = data.homepage || undefined
+    this.homepage = data.homepage || ''
     this.license = data.license || ''
     this.lovesCount = data.lovesCount || 0
     this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
@@ -111,13 +111,6 @@ export class Site extends Entry implements FirestoreEntry {
   get members(): string[] {
     const owners = this._owners
     return [...owners, ...this.players]
-  }
-  get homepage() {
-    return this._homepage || this.key || ''
-  }
-  set homepage(value: string) {
-    if (!value) this._homepage = this.key
-    this._homepage = value
   }
 
   get sortOrder() {
