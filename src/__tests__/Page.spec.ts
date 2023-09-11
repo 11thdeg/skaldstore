@@ -1,4 +1,4 @@
-import { Page } from '../entries/Page'
+import { Page } from '../contentEntries/Page'
 import { DocumentData, Timestamp } from 'firebase/firestore'
 import { Site } from '../entries/Site'
 
