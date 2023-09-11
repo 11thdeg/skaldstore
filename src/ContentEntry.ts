@@ -7,6 +7,7 @@ import { Entry, EntryType } from './Entry'
 export interface ContentEntryType extends EntryType{
   title: string
   markdownContent: string
+  htmlContent?: string
   public: boolean
   sticky: boolean
   tags: string[]
@@ -14,10 +15,13 @@ export interface ContentEntryType extends EntryType{
 
 /**
  * Default fields for content entries
+ * 
+ * The htmlContent field is deprecated and included only for compatibility reasons
  */
 export class ContentEntry extends Entry implements ContentEntryType{
   public title: string = ''
   public markdownContent: string = ''
+  public htmlContent: string = ''
   public public: boolean = true // we need to set visibility to be able to query ir from firebase: thus by default we set it to true
   public sticky: boolean = false // if the thread is sticky
   public tags: string[] = [] // tags for the entry
@@ -33,6 +37,7 @@ export class ContentEntry extends Entry implements ContentEntryType{
     // Content
     data.title = this.title || '' 
     data.markdownContent = this.markdownContent || ''
+    data.htmlContent = this.htmlContent || ''
     
     // Visibility
     data.sticky = this.sticky || false
@@ -50,6 +55,7 @@ export class ContentEntry extends Entry implements ContentEntryType{
     // Content
     this.title = data.title || ''
     this.markdownContent = data.markdownContent || ''
+    this.htmlContent = data.htmlContent || ''
 
     // Visibility
     this.sticky = data.sticky || false
