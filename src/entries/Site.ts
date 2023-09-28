@@ -51,6 +51,7 @@ export class Site extends Entry implements FirestoreEntry {
   public customPageKeys = false
   public backgroundURL = ''
   public homepage = ''
+  public backgroundSize = 'repeat'
 
   constructor(data?: DocumentData, key?: string) {
     super(data, key)
@@ -72,6 +73,7 @@ export class Site extends Entry implements FirestoreEntry {
     if (this.sortOrder) data.sortOrder = this.sortOrder
     if (this.tags && this.tags.length > 0) data.tags = this.tags
     if (this.backgroundURL) data.backgroundURL = this.backgroundURL
+    if (this.backgroundSize) data.backgroundSize = this.backgroundSize
     
     data.customPageKeys = this.customPageKeys || false
 
@@ -101,6 +103,7 @@ export class Site extends Entry implements FirestoreEntry {
     this.sortOrder = data.sortOrder || Site.SORT_BY_NAME
     this.tags = data.tags || []
     this.backgroundURL = data.backgroundURL || ''
+    if (this.backgroundURL) this.backgroundSize = data.backgroundSize || 'repeat'
 
     this.customPageKeys = data.customPageKeys || false
 
