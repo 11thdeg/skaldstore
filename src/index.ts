@@ -12,6 +12,9 @@ export * from './Storable'
 export * from './Subscriber'
 export * from './FirestoreEntry'
 export * from './TagInfo'
+export * from './entries/PlayerCharacter'
+
 // Content entries refactored to implement ContentEntryType
 export * from './contentEntries/Article'
 export * from './contentEntries/Page'
+
